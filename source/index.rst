@@ -40,8 +40,8 @@ astronomers are likely to encounter in research.*
 
    intro/intro
    installation/installation
+   pure_python/pure_python
    core/core
-   contest/bounce
    plotting/plotting
    files/files
    fitting/fitting
