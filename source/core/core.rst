@@ -23,6 +23,8 @@ Workshop goals:
    ipython
    numpy_scipy
    numpy_recarray
+   scipy_fft
+   
 
 :Author: Tom Aldcroft, Moritz Guenther
 :Copyright: 2011 Smithsonian Astrophysical Observatory

@@ -7,7 +7,8 @@ In this example, we want to
 
 * get access to an online catalog with photometric data,
 * make a plot of all the stars in that catalog
-* and select the bright (visual magnitude smaller than 4, and blue ones (brighter in B than in V).
+* select the bright (visual magnitude smaller than 3, and blue ones (brighter in B than in V).
+* look up the official names and spectral types of the 10 brightest stars in the selection
 
 The catalog we use is the Geneva Photometry Catalog from Rufener (1988).
 It is accessible through the ViZieR website via its designation ``II/169/main``.
@@ -33,7 +34,7 @@ What's in this FITS file? Let's have a look:
 
   In [1]: len(hdus) # 2 HDUs, an empty primary and a Table extension
 
-  In [1]: print(hdus[1].header)
+  In [1]: print(hdus[1].header) # information on the columns names, contents and type
 
 That's a lot to digest! We have *many* columns, and some of them contain strings,
 other contain floats etc... A normal numpy array doesn't seem fit to hold this
@@ -100,9 +101,9 @@ the FITS record to a numpy record array:
 
 .. ipython::
     
-    In [1]: names = hdus[1].columns.names
+    In [1]: names = hdus[1].columns.names # we need the column names
     
-    In [1]: cols = [hdus[1].data.field(col) for col in names]
+    In [1]: cols = [hdus[1].data.field(col) for col in names] # and their content
     
     In [1]: cat = np.rec.fromarrays(cols,names=names)
 
@@ -116,9 +117,9 @@ Next, we make a new catalog, with only the bright and blue stars.
 
     In [1]: bright_blue = (cat['Vmag']<3) & (cat['V-B']>0)
     
-    In [1]: len(bright_blue),sum(bright_blue)
+    In [1]: len(bright_blue),sum(bright_blue) # how many stars do we have, and how many or bright and blue?
 
-    In [1]: cat_select = cat[bright_blue]
+    In [1]: cat_select = cat[bright_blue] # make the selection
 
     In [1]: cat_select = cat_select[np.argsort(cat_select['Vmag'])] # sort according to magnitude
 
