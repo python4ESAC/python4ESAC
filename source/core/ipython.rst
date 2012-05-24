@@ -51,9 +51,9 @@ To exit IPython, hit <CTLR+D> or type ``exit`` or ``quit`` in the shell.
         
     .. sourcecode:: ipython
     
-        In [1]: x = arange(0,10,0.2)
+        In [1]: x = np.arange(0,10,0.2)
         
-        In [2]: y = sin(x)
+        In [2]: y = np.sin(x)
         
         In [3]: print x
         [ 0.   0.2  0.4  0.6  0.8  1.   1.2  1.4  1.6  1.8  2.   2.2  2.4  2.6  2.8
