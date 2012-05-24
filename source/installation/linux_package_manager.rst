@@ -31,6 +31,8 @@ First install the core packages for analysis with the following::
   sudo apt-get install python-matplotlib
   sudo apt-get install python-setuptools
   sudo apt-get install python-pyfits
+  sudo apt-get install python-beautifulsoup
+  sudo apt-get install mayavi2
 
 Most of the remaining packages are not available in the package
 manager, so we install them using the Python package manager
@@ -108,6 +110,7 @@ and inside ipython run the following python commands::
   import scipy
   import scipy.linalg
   import pylab as plt
+  from mayavi import mlab
 
   print numpy.__version__
   print scipy.__version__

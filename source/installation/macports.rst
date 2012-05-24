@@ -54,7 +54,7 @@ Note that this will probably take several hours, and is best done overnight.
 
 To install the packages required for this course, use::
 
-    sudo port install py27-pyfits py27-pywcs py27-vo py27-asciitable py27-atpy py27-aplpy
+    sudo port install py27-pyfits py27-pywcs py27-vo py27-asciitable py27-atpy py27-aplpy py27-mayavi py27-beautifulsoup
 
 MacPorts will automatically take care of any dependencies, including
 ``py27-pyregion`` and ``py27-parsing``.
@@ -118,6 +118,7 @@ and inside ipython run the following python commands::
   import scipy
   import scipy.linalg
   import pylab as plt
+  from mayavi import mlab
 
   print numpy.__version__
   print scipy.__version__
