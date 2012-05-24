@@ -20,6 +20,7 @@ Plotting and Images
    ../python/objects
    aplpy
    ../contest/bounce
+   mayavi_example
 
 **More advanced plotting (for self-study)**
 
