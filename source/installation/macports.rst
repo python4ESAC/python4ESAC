@@ -57,7 +57,9 @@ To install the packages required for this course, use::
     sudo port install py27-pyfits py27-pywcs py27-vo py27-asciitable py27-atpy py27-aplpy py27-mayavi py27-beautifulsoup
 
 MacPorts will automatically take care of any dependencies, including
-``py27-pyregion`` and ``py27-parsing``.
+``py27-pyregion`` and ``py27-parsing``. You may encounter an error
+installing ``py27-mayavi``, in this case you can skip installing
+it. It is not essential for the course.
 
 .. note:: by default SQL dependencies are not installed for ``py27-atpy``, and 
           the Montage dependency is not installed for ``py27-aplpy``. If you
