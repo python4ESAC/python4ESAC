@@ -110,7 +110,7 @@ and inside ipython run the following python commands::
   import scipy
   import scipy.linalg
   import pylab as plt
-  from mayavi import mlab
+  from enthought.mayavi import mlab
 
   print numpy.__version__
   print scipy.__version__
