@@ -26,6 +26,7 @@ First we will download the catalog to the local disk:
   
   In [1]: if not os.path.isfile('gen.fits'): # don't download if the file already exists
      ...:     urllib.URLopener().retrieve(vizier_url+cat_url+cat_options,filename='gen.fits')
+     ...:
 
 What's in this FITS file? Let's have a look:
 
