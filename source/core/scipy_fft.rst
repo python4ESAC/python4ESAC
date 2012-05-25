@@ -52,7 +52,9 @@ less readable.
 
     In [1]: from numpy import pi,sin,cos,sqrt
 
-To finalize the setup, we need some constants:
+To finalize the setup, we need some constants. We define them here explicitly,
+but there exists a module `scipy.constants <http://docs.scipy.org/doc/scipy/reference/constants.html>`_, with an
+extensive list of physical constants. However, it does not contain specifical astronomical constants such as the solar mass (see Prsa & Harmanec 2011).
 
 .. ipython::
     
@@ -66,6 +68,8 @@ To finalize the setup, we need some constants:
     
     In [1]: dlam = 0.01 # spectrum resolution (A)
 
+    In [1]: delta = midwave*vsini/cc 
+
 We will add some noise to a generate spectrum. To be able to reproduce the results,
 we make sure that we always add the same noise, regardless of how many times
 we run the script:
@@ -77,27 +81,113 @@ we run the script:
 The analytical broadening kernel
 --------------------------------
 
-The rotational broadening function *G* is only defined on a certain interval, but
+The rotational broadening function *G* is only defined on a certain wavelength interval, but
 we'll be lazy and solve that issue later. For now, we make the wavelength interval
 broad enough, i.e. +/- 5 angstrom, using the spectral resolution given above. 
 
 .. ipython::
-    
-    In [1]: delta = midwave*vsini/cc 
 
     In [1]: lambdas = np.linspace(-5,5,10./dlam+1) # wavelength interval
 
     In [1]: y = 1-(lambdas/delta)**2 # transformation of wavelengths
 
-    In [1]: G = (2*(1-epsilon)*np.sqrt(y)+pi*epsilon/2.*y)/(pi*delta*(1-epsilon/3))  # the kernel
+    In [1]: G = (2*(1-epsilon)*sqrt(y)+pi*epsilon/2.*y)/(pi*delta*(1-epsilon/3))  # the kernel
+
+    In [1]: print(G)
 
 The ``sqrt`` is of course only defined for positive numbers. For negative numbers,
-numpy silently fills in ``nan`` (not a number). We remove all the wavelength 
+numpy silently fills in ``nan`` (not a number).
+
+
+.. raw:: html
+
+   <p class="flip1">Click to Show/Hide: NOTES on ``np.nan``</p> <div class="panel1">
+
+.. note::
+
+    * in some versions of scipy and numpy, ``nan`` is not silently introduced,
+      but a warning is printed to the screen. You can avoid these print
+      statements via ``np.seterr(all='ignore')``.
+    * In the example, we were lazy and let the ``nan`` be introduced in the
+      arrays. In general, you should be **very careful** with this behaviour,
+      since many statements will silently break if there are nan's around:
+
+      .. ipython::
+        
+          In [1]: x = np.random.normal(size=100)
+    
+          In [1]: x.std()
+
+          In [1]: x[10] = np.nan
+    
+          In [1]: np.std(x) # std is not defined when there is a nan!
+      
+      Some functions have an alternative that can handle nans:
+
+      .. ipython::
+
+          In [1]: np.nanmax(x)
+
+      but not all of them:
+
+      .. ipython::
+
+          In [1]: hasattr(np,'nanstd'), hasattr(np,'nansum')
+      
+    * You might think ``np.nan`` is a good way to **mask elements in an array**,
+      e.g. when you want to compute the mean of an array. However, in the
+      previous note we've seen that numpy functions will return ``np.nan`` when
+      used on an array containing at least on ``np.nan``. Numpy has a seperate
+      array class for arrays with masked values, appropriately named **masked arrays**:
+
+      .. ipython::
+        
+         In [1]: x = np.random.normal(size=(4,4))
+
+         In [1]: x
+    
+         In [1]: mask = x<0
+         
+         In [1]: y = np.ma.array(x,mask=mask)
+         
+         In [1]: y
+
+      Notice that numpy actually uses a specific fill value for the masked values,
+      usually ``1e+20``, but you can control that value. Then finally, we can use
+      the normal numpy functions again:
+
+      .. ipython::
+        
+         In [1]: x.std(),y.std()
+
+         In [1]: x.min(),y.min()
+
+    * ``matplotlib`` can handle ``np.nan``:
+
+      .. ipython::
+      
+         In [1]: X,Y = np.mgrid[-5:5:500j,-5:5:500j]
+         
+         In [1]: Z = X*Y
+         
+         In [1]: Z[np.sqrt((X-1)**2+(Y-2)**2)<1.] = np.nan
+         
+         In [1]: plt.imshow(Z);
+
+         In [1]: plt.colorbar();
+         
+    .. image:: matplotlibnan.png
+      :scale: 50
+
+.. raw:: html
+
+   </div>
+
+
+We remove all the wavelength 
 and kernel elements wherever the kernel is not defined:
 
 .. ipython::
-
-    In [1]: print(G)
 
     In [1]: keep = -np.isnan(G) # returns boolean array with `False` where there are nans
 
@@ -152,6 +242,37 @@ convolution process:
 
     In [5]: spec_conv = 1-spec_conv/EW_after*EW_before
 
+.. raw:: html
+
+   <p class="flip2">Click to Show/Hide: NOTE on numerical integration</p> <div class="panel2">
+
+.. note::
+
+   Scipy contains a package dedicated to integration: ``scipy.integrate``. It
+   also contains the ``trapz`` function, implements the Simpson rule, and
+   provides ``quad`` and ``dblquad``, that can integrate functions numerically
+   between limits (i.e., without you having to specify an ``x`` and ``y``
+   array):
+
+    .. sourcecode:: ipython
+        
+        In [1]: from scipy.integrate import quad
+
+        In [1]: quad(lambda t: np.exp(-t) / t**5,1,np.inf)
+        Out[1]: (0.0704542374617277, 2.8164841189102693e-09)
+        
+
+   The return value is a tuple, with the first element holding the estimated
+   value of the integral and the second element holding an upper bound on the
+   error.
+    
+   The ``integrate`` package also contains an ODE solver ``odeint``. See e.g.
+   the `Zombie Apocalypse example <http://www.scipy.org/Cookbook/Zombie_Apocalypse_ODEINT>`_.
+
+.. raw:: html
+
+   </div>
+
 Finally, we simulate an observed profile by adding random Gaussian noise:
 
 .. ipython::
@@ -199,7 +320,9 @@ Bessel function:
 Computing the Fourier transform
 -------------------------------
 
-When calculating the FFT with ``fft``, a complex array is returned. In this case,
+When calculating the FFT with ``fft``, a complex array is returned. You can get
+the real and imaginary part with ``y.real`` and ``y.imag``, and the norm and 
+phase angle via ``np.abs(y)`` and ``np.angle(y)``. In this case,
 we are only interested in the power. Also, we need to increase the frequency
 resolution of the Fourier transform, so that we can nicely resolve the zeros.
 This is done via zero padding, and there exists and optional keyword ``n`` to
@@ -213,7 +336,7 @@ Therefore, we cut the spectrum to have little continuum remaining.
 
     In [1]: keep = np.abs(midwave-wavelengths_conv)<1.2 # minimize contribution of continuum
 
-    In [1]: spec_to_transform = (1-spec_obs)[keep]
+    In [1]: spec_to_transform = (1-spec_obs)[keep] # we need the continuum at zero
 
     In [1]: new_n = 100*len(spec_to_transform) # new length for zeropadding
     
@@ -252,7 +375,7 @@ Let's compare that to the minima from the analytical transform:
 
     In [1]: minima_an = x[1:-1][neg_to_pos]
 
-The frequency domain can be converted from s/A to s/km (inverse velocity) as
+The frequency domain can be converted to s/km (inverse velocity) as
 follows:
 
 .. ipython::

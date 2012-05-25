@@ -3,6 +3,9 @@
 NumPy
 -----
 
+.. contents::
+
+
 `NumPy`_ is at the core of nearly every scientific Python application or
 module since it provides a fast N-d array datatype that can be manipulated in a
 vectorized form.  This will be familiar to users of IDL or Matlab.
@@ -112,13 +115,13 @@ Now start IPython (``ipython --pylab``) or use your existing session and enter:
 
   In [1]: import urllib2, tarfile
   
-  In [1]: url = 'http://python4astronomers.github.com/core/core_examples.tar'
+  In [1]: #url = 'http://python4astronomers.github.com/core/core_examples.tar'
   
-  In [1]: tarfile.open(fileobj=urllib2.urlopen(url), mode='r|').extractall()
+  In [1]: #tarfile.open(fileobj=urllib2.urlopen(url), mode='r|').extractall()
   
-  In [1]: cd py4ast/core
+  In [1]: #cd py4ast/core
   
-  In [1]: ls
+  In [1]: #ls
 
 
 Leave this IPython session open for the rest of the workshop.
@@ -895,7 +898,7 @@ Now the final step is easy and is left as an exercise.
 **To do**: flux calibration and wavelength calibration!
 
 SciPy
------
+^^^^^
 
 It is impossible to do justice to the full contents of the `SciPy`_ package: is
 entirely too large!  What is left as homework for the reader is to

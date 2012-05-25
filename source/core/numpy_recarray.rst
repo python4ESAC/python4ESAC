@@ -16,15 +16,16 @@ First we will download the catalog to the local disk:
 
 .. ipython::
 
-  In [1]: import urllib, pyfits
+  In [1]: import urllib, pyfits, os
 
-  In [1]: #vizier_url = 'http://vizier.u-strasbg.fr/viz-bin/asu-fits/VizieR?' # website of ViZieR
+  In [1]: vizier_url = 'http://vizier.u-strasbg.fr/viz-bin/asu-fits/VizieR?' # website of ViZieR
   
-  In [1]: #cat_url = '&-source=II/169/main' # name of the catalog
+  In [1]: cat_url = '&-source=II/169/main' # name of the catalog
 
-  In [1]: #cat_options = '&-oc=deg,eq=J2000&-out.all' # retrieve all columns, coordinates in J2000 and degrees
+  In [1]: cat_options = '&-oc=deg,eq=J2000&-out.all' # retrieve all columns, coordinates in J2000 and degrees
   
-  In [1]: #urllib.URLopener().retrieve(vizier_url+cat_url+cat_options,filename='gen.fits')
+  In [1]: if not os.path.isfile('gen.fits'): # don't download if the file already exists
+     ...:     urllib.URLopener().retrieve(vizier_url+cat_url+cat_options,filename='gen.fits')
 
 What's in this FITS file? Let's have a look:
 
@@ -57,6 +58,10 @@ For this particular problem, numpy subclasses the basic array type into ``record
 arrays``, which are very similar to FITS table extensions, but add the power of
 numpy. In fact, when you use pyfits, the pyFITS record behaves almost like a numpy
 recarray.
+
+.. raw:: html
+
+   <p class="flip1">Click to Show/Hide Introduction to recarray</p> <div class="panel1">
 
 Let's start with a small example. We make a record array with 3 columns: an index
 array (integer type), a column with magnitude values, and a column with star
@@ -93,9 +98,11 @@ provides us with a nice alternative:
     
     In [1]: print(plt.mlab.rec2txt(recarr2)) # pretty print
     
+.. raw:: html
 
+   </div>
 
-Back to the catalog. Though a pyFITS record has almost the same behaviour as
+Though a pyFITS record has almost the same behaviour as
 we require, a numpy record array is more general in its use. Therefore, we convert
 the FITS record to a numpy record array:
 
@@ -122,6 +129,32 @@ Next, we make a new catalog, with only the bright and blue stars.
     In [1]: cat_select = cat[bright_blue] # make the selection
 
     In [1]: cat_select = cat_select[np.argsort(cat_select['Vmag'])] # sort according to magnitude
+
+.. raw:: html
+
+   <p class="flip2">Click to Show/Hide Alternative with dictionaries</p> <div class="panel2">
+
+How would the above look when we would use dictionaries instead of record arrays?
+First, we make a dictionary of the catalog:
+
+.. sourcecode:: ipython
+
+    In [1]: cat2 = {name:cat[name] for name in cat.dtype.names}
+    
+    In [2]: cat2_select = {key:cat2[key][bright_blue] for key in cat2}
+
+    In [3]: sortarray = np.argsort(cat2_select['Vmag'])
+
+    In [4]: cat2_select = {key:cat2_select[key][sa] for key in cat2_select}
+
+Compare [2] with [31] and [4] with [32]. Though we can the same with dictionary
+with an equal amount of lines, record arrays provide a much more logical interface,
+and does not require us to cycle over the columns in the catalog manually.
+
+
+.. raw:: html
+
+   </div>
 
 
 Now we can make the plots that we want. For fun, we first make a histogram of
@@ -150,9 +183,9 @@ size of the dots with the brightness of star.
 
 
 Finally, we are interested in the names 10 brightest blue stars in this catalog.
-To this end, we need to convert the HD number to the official star name. We use
+We need to convert the HD number to the official star name. We use
 the ``sesame`` online database (i.e. SIMBAD), download the HTML files with the
-info on the stars, and extract their name and spectral types. To this end, we
+info on the stars, and extract their name and spectral types. We
 can use the non-standard package BeautifulSoup:
 
 .. ipython::
@@ -170,3 +203,15 @@ can use the non-standard package BeautifulSoup:
        ...:     
     
 There seems to be a solar-like star in there!
+
+.. raw:: html
+
+   <p class="flip3">Click to Show/Hide Solution without BeatifulSoup </p> <div class="panel3">
+
+What would the previous script look like when BeautifulSoup is not installed?
+
+
+.. raw:: html
+
+   </div>    
+    
