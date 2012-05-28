@@ -54,7 +54,10 @@ More generally, any function or expression that ultimately returns ``True`` or
 
 .. Note::
 
-    In the previous examples we have included comments. All lines starting with the ``#`` character are ignored by Python. If you would like to comment out a section of code, you can enclose it in trip quotes: ``'''commented out code'''``.
+    In the previous examples we have included comments. All lines
+    starting with the ``#`` character are ignored by Python. If you
+    would like to comment out a section of code, you can enclose it in
+    triple quotes: ``'''commented out code'''``.
 
 ``for`` loops
 -------------

@@ -129,7 +129,10 @@ Sets (``set``) are a third type of sequence which you can make from a tuple or a
     >>> set([1, 2, 3, 2, 'spam', 'egg', 'spam'])
     set([1, 2, 3, 'egg', 'spam'])
 
-Note that duplicate items have been removed. This is the mathematical definition of a set, i.e. a collection of *distinct* objects. The order of the objects is arbitrary (order is not preserved). Various operators can be used to represent set operations::
+Note that duplicate items have been removed. This is the mathematical
+definition of a set, i.e. a collection of *distinct* objects. The
+order of the objects is arbitrary (order is not preserved). Various
+operators can be used to represent set operations::
 
     >>> set([1,2,3]) - set([3,4])
     set([1, 2])
@@ -139,6 +142,13 @@ Note that duplicate items have been removed. This is the mathematical definition
 
     >>> set([1,2,3]) | set([3,4])
     set([1, 2, 3, 4])
+
+If you want to test whether a single item is member of a large
+collection of items, it is faster to use a set rather than a list or
+tuple::
+    
+    >>> 'a' in set('abcdef')
+    True
 
 Strings
 -------
