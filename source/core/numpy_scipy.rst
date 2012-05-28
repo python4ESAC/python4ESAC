@@ -113,15 +113,15 @@ Now start IPython (``ipython --pylab``) or use your existing session and enter:
 
 .. ipython::
 
-  In [1]: import urllib2, tarfile
+  In [1]: import urllib2, tarfile, os
   
-  In [1]: #url = 'http://python4astronomers.github.com/core/core_examples.tar'
+  In [1]: url = 'http://python4astronomers.github.com/core/core_examples.tar'
   
-  In [1]: #tarfile.open(fileobj=urllib2.urlopen(url), mode='r|').extractall()
+  In [1]: tarfile.open(fileobj=urllib2.urlopen(url), mode='r|').extractall()
   
-  In [1]: #cd py4ast/core
+  In [1]: cd py4ast/core
   
-  In [1]: #ls
+  In [1]: ls
 
 
 Leave this IPython session open for the rest of the workshop.
