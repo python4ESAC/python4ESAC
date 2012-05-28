@@ -38,12 +38,12 @@ astronomers are likely to encounter in research.*
 .. toctree::
    :maxdepth: 1
 
-   intro/intro
    installation/installation
+   intro/intro
    pure_python/pure_python
+   files/files
    core/core
    plotting/plotting
-   files/files
    fitting/fitting
    vo/vo
 
@@ -58,23 +58,23 @@ Sample Workshop Schedule
 The workshop schedule is as follows.  Except for the first introductory session all
 workshops are hands-on and participants should bring a laptop.
 
-======== ======================================= ===================== =========
-Date     Topic                                   Time                  Presenter
-======== ======================================= ===================== =========
-30th May Installation and Understanding Packages 9:30-10:00            Eli
-30th May Introduction to Python for ESAC         10:00-11:00           Eli
-30th May Introduction to Pure Python             11:30-13:00           Neil
-30th May Reading and Writing Files               14:00-15:30           Neil
-30th May IPython, Numpy and Scipy                15:45-17:00           Pieter
-31st May IPython, Numpy and Scipy continued      9:30-10:00            Pieter
-31st May Introduction to Matplotlib              11:30-13:00           Pieter
-31st May Publication quality plots               14:00-15:30           Neil
-31st May Plotting images and APLpy               15:45-17:00           Eli
-1st June APLpy continued                         9:30-10:00            Eli
-1st June Fitting and modelling, Q&A              11:30-13:00           Eli
-1st June urllib2, ATPy, examples                 14:00-15:30           Neil
-1st June multiprocessing, f2py, more examples    15:45-17:00           Pieter
-======== ======================================= ===================== =========
+======== ======================================= ============== =========
+Date     Topic                                   Time           Presenter
+======== ======================================= ============== =========
+30th May Installation and Understanding Packages 9:30-10:00     Eli
+30th May Introduction to Python for ESAC         10:00-11:00    Eli
+30th May Introduction to Pure Python             11:30-13:00    Neil
+30th May Reading and Writing Files               14:00-15:30    Neil
+30th May IPython, Numpy and Scipy                15:45-17:00    Pieter
+31st May IPython, Numpy and Scipy continued      9:30-10:00     Pieter
+31st May Introduction to Matplotlib              11:30-13:00    Pieter
+31st May Publication quality plots               14:00-15:30    Neil
+31st May Plotting images and APLpy               15:45-17:00    Eli
+1st June APLpy continued                         9:30-10:00     Eli
+1st June Fitting and modelling, Q&A              11:30-13:00    Eli
+1st June urllib2, ATPy, examples                 14:00-15:30    Neil
+1st June multiprocessing, f2py, more examples    15:45-17:00    Pieter
+======== ======================================= ============== =========
 
 About the Workshops
 -------------------
