@@ -17,7 +17,8 @@ This is a rather boring function that does not take or return any arguments. Let
         total = x1 + x2
         return total
 
-This function simply adds the two numbers that it is given as arguments. As you expect, we can pass integers, floats and strings to a function. Consider the flowing function::
+This function simply adds the two numbers that it is given as arguments. As you expect, we can pass integers, floats and strings to a function. Actually, we
+can pass *any* Python object, even functions! Consider the flowing function::
     
     def print_argument(x = 5):
         print x
