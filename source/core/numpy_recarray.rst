@@ -196,7 +196,7 @@ can use the non-standard package BeautifulSoup:
     In [1]: import urllib2
 
     In [1]: for hd in cat_select['HD'][:10]:
-       ...:     html = "".join([line for line in urllib2.urlopen('http://cdsweb.u-strasbg.fr/cgi-bin/nph-sesame/-oxpsIF/S?HD{0}'.format(hd)).readlines()])
+       ...:     html = "".join(urllib2.urlopen('http://cdsweb.u-strasbg.fr/cgi-bin/nph-sesame/-oxpsIF/S?HD{0}'.format(hd)).readlines())
        ...:     page = bs.BeautifulSoup(html)
        ...:     name = page('oname')[0].text
        ...:     sptype = page('sptype')[0].text
@@ -209,7 +209,22 @@ There seems to be a solar-like star in there!
 
    <p class="flip3">Click to Show/Hide Solution without BeatifulSoup </p> <div class="panel3">
 
-What would the previous script look like when BeautifulSoup is not installed?
+What would the previous script look like when BeautifulSoup is not installed? In
+this case, we'll have to read in the and extract the information manually. We
+could write a small function for that:
+
+.. sourcecode:: python
+
+    def info_from_sesame(hd):
+        lines = urllib2.urlopen('http://cdsweb.u-strasbg.fr/cgi-bin/nph-sesame/-oxpsIF/S?HD{0}'.format(hd)).readlines()
+        sptype,oname = 'NA','NA' # in case it was not found
+        for line in lines:
+            if 'spType' in line:
+                sptype = line.split('>')[1].split('<')[0]
+            if 'oname' in line:
+                oname = line.split('>')[1].split('<')[0]
+        return oname,sptype
+        
 
 
 .. raw:: html
