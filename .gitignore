@@ -2,3 +2,5 @@ source/_build
 *.pyc
 examples/image_plotting/rgb*
 py4ast/
+
+source/data_2_1
