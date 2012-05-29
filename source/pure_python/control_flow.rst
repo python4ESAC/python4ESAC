@@ -34,7 +34,8 @@ once Python exits the if statement.
 
 .. Note::
 
-    Indentation is very important in Python, and the convention is to use four spaces (not tabs) for each level of indent.
+    Indentation is very important in Python, and the convention is to
+    use four spaces (not tabs) for each level of indent.
 
 Back to the if-statements, the conditions in the statements can be anything
 that returns a boolean value. For example, ``a == 1``, ``b != 4``, and ``c <=
@@ -51,6 +52,17 @@ comparisons should be executed, for example::
 
 More generally, any function or expression that ultimately returns ``True`` or
 ``False`` can be used.
+
+Along with comparisons, another commonly-used operator is ``in``. This
+is used to test whether an item is contained in any collection::
+
+    >>> b = [1, 2, 3]
+    >>> 2 in b
+    True
+    >>> 5 in b
+    False
+
+If `b` is a dictionary, this tests that the item is a key of `b`.
 
 .. Note::
 
@@ -78,9 +90,15 @@ includes lists, tuples, dictionaries, strings. Try the following in IPython::
     1.2
     'a'
 
-Note that by putting the colon at the end of the first line, IPython automatically knows to indent the next line, so you don't need to indent it yourself. After typing the ``print`` statement, you need to press enter twice to tell IPython you are finished writing code.
+Note that by putting the colon at the end of the first line, IPython
+automatically knows to indent the next line, so you don't need to
+indent it yourself. After typing the ``print`` statement, you need to
+press enter twice to tell IPython you are finished writing code.
 
-A common type of for loop is one where the value should go between two integers with a specific set size. To do this, we can use the ``range`` function. If given a single value, it will give a list ranging from 0 to the value minus 1::
+A common type of for loop is one where the value should go between two
+integers with a specific set size. To do this, we can use the
+``range`` function. If given a single value, it will give a list
+ranging from 0 to the value minus 1::
 
     In [2]: range(10)
     Out[2]: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -123,7 +141,9 @@ The ``range`` function can be used as the iterable in a ``for`` loop.
 ``while`` loops
 ---------------
 
-Similarly to other programming languages, Python also provides a ``while`` loop which is similar to a ``for`` loop, but where the number of iterations is defined by a condition rather than an iterator::
+Python also provides a ``while`` loop which is similar to a ``for``
+loop, but where the number of iterations is defined by a condition
+rather than an iterator::
 
     while condition:
         # do something
@@ -181,3 +201,70 @@ the loop is executed until ``a`` is equal to or exceeds 10.
     34
     55
     89
+
+**More advanced features**
+
+``break`` out of enclosing for/while loop::
+
+    >>> z = 1 + 1j
+    >>> while abs(z) < 100:
+    ...     if z.imag == 0:
+    ...         break
+    ...     z = z**2 + 1
+
+``continue`` the next iteration of a loop.::
+
+    >>> a = [1, 0, 2, 4]
+    >>> for element in a:
+    ...     if element == 0:
+    ...         continue
+    ...     print 1. / element
+    ...     
+    1.0
+    0.5
+    0.25
+
+Keeping track of enumeration number
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Common task is to iterate over a sequence while keeping track of the
+item number.
+
+* Could use while loop with a counter as above. Or a for loop:
+
+  .. sourcecode:: ipython
+
+    In [13]: for i in range(0, len(words)):
+       ....:     print(i, words[i])
+       ....:     
+       ....:     
+    0 cool
+    1 powerful
+    2 readable
+
+* But Python provides **enumerate** for this::
+
+    >>> words = ('cool', 'powerful', 'readable')
+    >>> for index, item in enumerate(words):
+    ...     print index, item
+    ...     
+    0 cool
+    1 powerful
+    2 readable
+
+
+List Comprehensions
+-------------------
+
+A common programming structure when assigning values to a list is the
+following::
+
+  >>> l = []                      # create the list
+  >>> for i in range(10):
+  ...    l.append(i**2)
+
+List comprehensions provide a shorter and more readable way of writing
+the same loop::
+
+     >>> l = [i**2 for i in range(10)]
+

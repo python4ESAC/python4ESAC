@@ -12,12 +12,19 @@ statements, ...) and basic file input/output operations.
 
    running.rst
    types.rst
+   assignment.rst
    control_flow.rst
    functions.rst
-   files.rst
    modules.rst
+   standard_library.rst
    python3.rst
    
-:Authors: Thomas Robitaille, Rory Holmes
-:Copyright: 2012, Thomas Robitaille, Rory Holmes
+
+These notes are based on the pure Python section (written by Thomas
+Robitaille and Rory Holmes) of the `python4mpia
+<http://python4mpia.github.com/>`_ , and the `scipy-lectures
+<http://scipy-lectures.github.com/>`_ on Python.
+
+:Authors: Neil Crighton
+:Copyright: 2012, Neil Crighton
 

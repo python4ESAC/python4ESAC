@@ -54,12 +54,17 @@ Manipulating these behaves the way you would expect, so an operation (``+``, ``-
     >>> 8 * complex(-3.3,1)
     (-26.4+8j)  # int * complex = complex
 
-However, there is one case where this happens but is not desirable, and that you should be aware of, which is the division of two integer numbers::
+However, there is one case where this happens but is not desirable,
+and that you should be aware of, which is the division of two integer
+numbers::
 
     >>> 3 / 2
     1
 
-This is behavior is widely regarded as a huge design mistake and Python 3.x has been fixed to behave like you would expect (more on Python 3.x later). A way to prevent this is to cast at least one of the integers in the division to a ``float``::
+This is behavior is widely regarded as a design mistake and Python 3.x
+has been fixed to behave as you would expect (more on Python 3.x
+later). A way to prevent this is to cast at least one of the integers
+in the division to a ``float``::
 
     >>> 3 / float(2)
     1.5
@@ -72,7 +77,8 @@ or::
 Lists, tuples, and sets
 -----------------------
 
-There are two types of sequences that appear similar at first glance, both of which can contain inhomogeneous data types:
+There are two types of sequences that appear similar at first glance,
+both of which can contain inhomogeneous data types:
 
 * Lists (``list``)::
 
@@ -94,7 +100,114 @@ There are two types of sequences that appear similar at first glance, both of wh
     >>> t[2]
     'spam'
 
-The difference between these two types is that lists are mutable, and tuples are immutable::
+.. warning::
+
+    **Indexing starts at 0** (as in C), not at 1 (as in Fortran or Matlab)!
+
+* Slicing: obtaining sublists of regularly-spaced elements::
+
+    >>> l
+    [1, 2, 3, 4, 5]
+    >>> l[2:4]
+    [3, 4]
+
+**Slicing syntax**: `l[start:stop:stride]`
+
+All slicing parameters are optional::
+
+    >>> l[3:]
+    [4, 5]
+    >>> l[:3]
+    [1, 2, 3]
+    >>> l[::2]
+    [1, 3, 5]
+
+Lists are *mutable* objects and can be modified::
+
+    >>> l[0] = 28
+    >>> l
+    [28, 2, 3, 4, 5]
+    >>> l[2:4] = [3, 8] 
+    >>> l
+    [28, 2, 3, 8, 5]
+
+.. Warning::
+
+    Note that ``l[start:stop]`` contains the elements with indices ``i``
+    such as  ``start<= i < stop`` (``i`` ranging from ``start`` to
+    ``stop-1``). Therefore, ``l[start:stop]`` has ``(stop-start)`` elements.
+
+.. Note::
+
+    The elements of a list may have different types::
+
+	>>> l = [3, 2, 'hello']
+	>>> l
+	[3, 2, 'hello']
+	>>> l[1], l[2]
+	(2, 'hello')
+
+    For collections of numerical data that all have the same type, it
+    is often **more efficient** to use the ``array`` type provided by
+    the ``numpy`` module. A NumPy array is a chunk of memory
+    containing fixed-sized items.  With NumPy arrays, operations on
+    elements can be faster because elements are regularly spaced in
+    memory and more operations are perfomed through specialized C
+    functions instead of Python loops.
+
+Python offers a large pnumber of functions to modify lists, or query
+them. Here are a few examples; for more details, see
+http://docs.python.org/tutorial/datastructures.html#more-on-lists
+
+Add and remove elements::
+
+    >>> l = [1, 2, 3, 4, 5]
+    >>> l.append(6)
+    >>> l
+    [1, 2, 3, 4, 5, 6]
+    >>> l.pop()
+    6
+    >>> l
+    [1, 2, 3, 4, 5]
+    >>> l.extend([6, 7]) # extend l, in-place
+    >>> l
+    [1, 2, 3, 4, 5, 6, 7]
+    >>> l = l[:-2]
+    >>> l
+    [1, 2, 3, 4, 5]
+
+Reverse `l`::
+
+    >>> r = l[::-1]
+    >>> r
+    [5, 4, 3, 2, 1]
+
+Concatenate and repeat lists:: 
+
+    >>> r + l
+    [5, 4, 3, 2, 1, 1, 2, 3, 4, 5]
+    >>> 2 * r
+    [5, 4, 3, 2, 1, 5, 4, 3, 2, 1]
+
+Sort r (in-place)::
+
+    >>> r.sort()
+    >>> r
+    [1, 2, 3, 4, 5]
+
+
+.. Note:: **Methods and Object-Oriented Programming**
+
+    The notation ``r.method()`` (``r.sort(), r.append(3), l.pop()``)
+    is an example of object-oriented programming (OOP). Being a
+    ``list``, the object `r` owns the *method* `function` that is
+    called using the notation **.**. No further knowledge of OOP than
+    understanding the notation **.** is necessary for going through
+    this tutorial.
+
+
+The difference between lists and tuples is that lists are mutable, and
+tuples are immutable::
 
     >>> l[0] = 3
     >>> l.append('egg')  # For a full list of methods, type l. then press TAB!
@@ -107,24 +220,13 @@ The difference between these two types is that lists are mutable, and tuples are
       File "<stdin>", line 1, in <module>
     TypeError: 'tuple' object does not support item assignment
 
-There are reasons why tuples are a useful feature (faster and `hashable
-<http://docs.python.org/glossary.html#term-hashable>`_ are the two main ones), but for now, it's enough for you to know there is such a difference.
+There are reasons why tuples are a useful feature (faster and
+`hashable <http://docs.python.org/glossary.html#term-hashable>`_ are
+the two main ones), but for now, it's enough for you to know there is
+such a difference.
 
-One useful operation with lists and tuples is ``+``, which can be used for concatenation::
-
-    >>> [1,2,3] + [4,5,6]
-    [1, 2, 3, 4, 5, 6]
-
-    >>> ('spam', 'egg') + ('more spam','!')
-    ('spam', 'egg', 'more spam', '!')
-
-.. note:: Unlike Numpy arrays:
-
-    * Python lists can contain anything, including other lists, objects, or complex data structures.
-    * When you slice a Python list it returns a copy.
-    * Vector math does not work on lists. For example, multiplying a list by an int ``n`` gives ``n`` copies of the list, adding another list concatentates, and multiplying by a float gives an error.
-
-Sets (``set``) are a third type of sequence which you can make from a tuple or a list::
+Sets (``set``) are a third type of sequence which you can make from a
+tuple or a list::
 
     >>> set([1, 2, 3, 2, 'spam', 'egg', 'spam'])
     set([1, 2, 3, 'egg', 'spam'])
@@ -143,11 +245,11 @@ operators can be used to represent set operations::
     >>> set([1,2,3]) | set([3,4])
     set([1, 2, 3, 4])
 
-If you want to test whether a single item is member of a large
-collection of items, it is faster to use a set rather than a list or
-tuple::
-    
-    >>> 'a' in set('abcdef')
+If you want to test whether a single item is member of a very large
+collection of items, it can be faster to use a set rather than a list
+or tuple::
+
+    >>> 'a' in set(['a', 'b', 'c', 'd', 'e', 'f'])
     True
 
 Strings
@@ -157,7 +259,10 @@ Strings (``str``) will be familiar from other programming languages::
 
     >>> s = "Spam egg spam spam"
 
-You can use either single quotes (``'``), double quotes (``"``), or triple quotes (``'''``) to enclose a string (the last one is used for multi-line strings). To include single or double quotes inside a string, you can either use the opposite quote to enclose the string::
+You can use either single quotes (``'``), double quotes (``"``), or
+triple quotes (``'''``) to enclose a string (the last one is used for
+multi-line strings). To include single or double quotes inside a
+string, you can either use the opposite quote to enclose the string::
 
     >>> "I'm"
     "I'm"
@@ -173,27 +278,52 @@ or you can *escape* them::
     >>> "\"hello\""
     '"hello"'
 
-You can access individual characters or chunks of characters::
+Strings are sequences like lists. Hence they can be indexed and
+sliced, using the same syntax and rules.
 
-    >>> s[5]
+Indexing::
+
+    >>> s = "hello"
+    >>> s[0]
+    'h'
+    >>> s[1]
     'e'
+    >>> s[-1]
+    'o'
 
-    >>> s[9:13]
-    'spam'
 
-Note that strings are immutable (like tuples), that is you cannot change the value of certain characters without creating a new string::
+(Remember that negative indices correspond to counting from the right
+end.)
+
+Slicing::
+
+    >>> s = "hello, world!"
+    >>> s[3:6] # 3rd to 6th (excluded) elements: elements 3, 4, 5
+    'lo,'
+    >>> s[2:10:2] # Syntax: a[start:stop:step]
+    'lo o'
+    >>> s[::3] # every three characters, from beginning to end 
+    'hl r!'
+
+Note that strings are immutable (like tuples), that is you cannot
+change the value of certain characters without creating a new string::
 
     >>> s[5] = 'r'
     Traceback (most recent call last):
       File "<stdin>", line 1, in <module>
     TypeError: 'str' object does not support item assignment
+    >>> s.replace('l', 'z', 1)
+    >>> 'hezlo, world!'
+    >>> s.replace('l', 'z')
+    >>> 'hezzo, worzd!'
 
 As for lists, and tuples, concatenation is done with ``+``::
 
     >>> "hello," + " " + "world!"
     'hello, world!'
 
-Finally, strings have many methods associated with them, here are a few examples::
+Finally, strings have many methods associated with them like
+``.replace()`` used above. Here are a few more examples::
 
     >>> s.upper()
     'SPAM EGG SPAM SPAM'  # An uppercase version of the string
@@ -216,6 +346,12 @@ as look-up tables::
     >>> d['flux'] = 4.5
     >>> d
     {'flux': 4.5, 'dec': 41.27, 'name': 'm31', 'ra': 10.68}
+    >>> d.keys()
+    ['dec', 'name', 'ra']
+    >>> d.values()
+    [41.27, 'm31', 10.68]
+    >>> 'ra' in d
+    True
 
 
 A note on Python objects

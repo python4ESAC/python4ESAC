@@ -57,7 +57,13 @@ If you now type the up arrow twice, you will get back to ``a = 1``.
 Running scripts
 ---------------
 
-While the interactive Python mode is very useful to exploring and trying out code, you will eventually want to write a script to record and reproduce what you did, or to do things that are too complex to type in interactively (defining functions, classes, etc.). To write a Python script, just use your favorite code editor to put the code in a file with a ``.py`` extension. For example, we can create a file called ``test.py`` containing::
+While the interactive Python mode is very useful for exploring and
+trying out code, you will eventually want to write a script to record
+and reproduce what you did, or to do things that are too complex to
+type in interactively (defining functions, classes, etc.). To write a
+Python script, just use your favorite code editor to put the code in a
+file with a ``.py`` extension. For example, we can create a file
+called ``test.py`` containing::
 
     a = 1
     print a
@@ -67,17 +73,34 @@ We can then run the script on the command-line with::
     $ python test.py
     1
 
-.. note:: The ``print`` statement is necessary, because typing ``a`` on its own will only print out the value in interactive mode. In scripts, the printing has to be explicitly requested with the print command. To print multiple variables, just separate them with a comma after the print command: ``print a, 1.5, "spam"``. To print variable within strings use the following syntax: ``print ("This is a integer: %d, this is a float: %f, and is a string: %s" % (5, 3.141, "spam"))``
+.. note::
+  The ``print`` statement is necessary, because typing ``a`` on its
+  own will only print out the value in interactive mode. In scripts,
+  the printing has to be explicitly requested with the print
+  command. To print multiple variables, just separate them with a
+  comma after the print command: ``print a, 1.5, "spam"``. To print
+  variable within strings use the following syntax: ``print ("This is
+  a integer: %d, this is a float: %f, and is a string: %s" % (5,
+  3.141, "spam"))``
 
 Executable Scripts
 ------------------
 
-It is also possible to make Python scripts executable. Simply add ``#!/usr/bin/env python`` on the first line of your ``test.py`` script and change the file permission to make it executable with ``chmod +x test.py``. Now the script can be run without the preceeding ``python`` command; instead you can just type ``./test.py`` in the command line. Note that this will only work on Linux and Macs, not on Windows.
+It is also possible to make Python scripts executable. Simply add
+``#!/usr/bin/env python`` on the first line of your ``test.py`` script
+and change the file permission to make it executable with ``chmod +x
+test.py``. Now the script can be run without the preceeding ``python``
+command; instead you can just type ``./test.py`` in the command
+line. Note that this will only work on Linux and Macs, not on Windows.
 
 Combining interactive and non-interactive use
 ---------------------------------------------
 
-It can sometimes be useful to run a script to set things up, and to continue in interactive mode. This can be done using the ``%run`` IPython command to run the script, which then gets executed. The IPython session then has access to the last state of the variables from the script::
+It can sometimes be useful to run a script to set things up, and to
+continue in interactive mode. This can be done using the ``%run``
+IPython command to run the script, which then gets executed. The
+IPython session then has access to the last state of the variables
+from the script::
 
     $ ipython
     Python 2.7.2 (default, Nov  5 2011, 20:09:20)
