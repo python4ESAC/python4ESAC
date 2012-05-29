@@ -112,8 +112,8 @@ both of which can contain inhomogeneous data types:
 
     **Indexing starts at 0** (as in C), not at 1 (as in Fortran or Matlab)!
 
-* We can obtain sublists of regularly-spaced elements in a list by
-  'slicing'::
+We can obtain sublists of regularly-spaced elements in a list or tuple
+by 'slicing'::
 
     >>> l = [1, 2, 3, 4, 5]
     >>> l[2:4]
@@ -147,7 +147,8 @@ We can also use negative numbers when slicing. These count from the
 Using a negative step moves from higher to lower indices. For example,
 to reverse `l`::
 
-    >>> l[::-1]
+    >>> r = l[::-1]
+    >>> r
     [5, 4, 3, 2, 1]
 
 Lists are *mutable* objects and can be modified::
@@ -211,12 +212,13 @@ Sort r (in-place)::
 The difference between lists and tuples is that lists are mutable, and
 tuples are immutable::
 
-    >>> l[0] = 3
+    >>> l = [1, 2, 3]
     >>> l.append('egg')  # For a full list of methods, type l. then press TAB!
-    >>> l.insert(3,'spam')
+    >>> l.insert(3, 'spam')
     >>> l
-    [3, 5.5, 'spam', 'spam', 'egg']
+    [1, 2, 3, 'spam', 'egg']
 
+    >>> t = (1, 2, 3)
     >>> t[0] = 3
     Traceback (most recent call last):
       File "<stdin>", line 1, in <module>
@@ -371,7 +373,7 @@ A note on Python objects
 
 Most things in Python are objects.  But what is an object?
 
-Every constant, variable, or function in Python is actually a object
+Every constant, variable, or function in Python is actually an object
 with a type and associated attributes and methods. An *attribute* a
 property of the object that you get or set by giving the
 <object_name> + dot + <attribute_name>, for example ``img.shape``. A

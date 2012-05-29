@@ -31,10 +31,10 @@ Things to note:
    >>> a
    [1, 'hi!', 3]
 
-* By modifying `b`, we have also modified `a`! This behaviour saves
-  the time and memory needed to allocate extra space for a copy of the
-  original list. If we want to make a copy, we can explicitly ask
-  for one by using the ``list`` command::
+* By modifying `b`, we have also modified `a`! This is because `a` and
+  `b` are just labels that point to the same object. If we want to
+  make a copy, we can explicitly ask for one by using the ``list``
+  command::
   
    >>> a = [1, 2, 3]
    >>> b = list(a)
@@ -46,7 +46,7 @@ Things to note:
    >>> a
    [1, 2, 3]
 
-* Taking slices of lists does perform a copy::
+* Note that taking slices of lists does perform a copy::
 
    >>> a = [1, 2, 3]
    >>> b = a[:2]
@@ -60,8 +60,8 @@ Things to note:
 
 * The key concept here is **mutable vs. immutable**
 
-    * mutable objects can be changed in place
-    * immutable objects cannot be modified once created
+    * mutable objects can be changed in place.
+    * immutable objects cannot be modified once created.
 
 A very good and detailed explanation of the above issues can be found
 in David M. Beazley's article `Types and Objects in Python

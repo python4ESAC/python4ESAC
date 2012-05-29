@@ -15,7 +15,7 @@ This can be called with ``my_function()``.
 
 .. note:: 
     It is considered good python style to have function names all in
-    lower case, with words separated by underscore to improve
+    lower case, with words separated by underscore if it improves
     readability.
 
 This is a rather boring function that does not take or return any
@@ -58,6 +58,9 @@ used.
         else:
             print x*7
 
+.. raw:: 
+
+   <\div>
 
 Functions can also have both keyword and standard arguments::
 
@@ -75,6 +78,7 @@ Functions can also have both keyword and standard arguments::
   >>> slicer(l, stop=5, step=2)
   [1, 3, 5]
 
+
 Docstrings
 ----------
 
@@ -90,7 +94,10 @@ convention is::
   ...	  # function body
   ...	  pass
 
+
+Then the doctstring for that function can be accessed with::
+
   >>> help(funcname)
 
-In IPython you can access the same documentation about a function
-using ``funcname?`` (Try it now!).
+In IPython you can access the same documentation using ``funcname?``
+(Try it now!).

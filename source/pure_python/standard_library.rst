@@ -114,10 +114,11 @@ Delete a file:
 Running an external command
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. sourcecode:: ipython
+::
 
   >>> from subprocess import call
   >>> call('chmod +x filename', shell=True)
+
 
 ``shutil``: high-level file operations
 ---------------------------------------
@@ -190,9 +191,7 @@ Environment variables:
 
 System-specific information related to the Python interpreter.
 
-* Which version of python are you running and where is it installed:
-
-  .. sourcecode:: ipython
+* Which version of python are you running and where is it installed::
 
     >>> sys.platform
     'darwin'
@@ -204,16 +203,14 @@ System-specific information related to the Python interpreter.
     >>> sys.prefix
     '/Library/Frameworks/Python.framework/Versions/2.5'
 
-* List of command line arguments passed to a Python script:
+* List of command line arguments passed to a Python script::
 
    >>> sys.argv
    ['/Users/cburns/local/bin/ipython']
 
 
 ``sys.path`` is a list of strings that specifies the search path for
-modules.  Initialized from PYTHONPATH:
-
-.. sourcecode:: ipython
+modules.  Initialized from PYTHONPATH::
 
     >>> sys.path 
     ['',

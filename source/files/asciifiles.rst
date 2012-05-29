@@ -24,7 +24,7 @@ Let's start off by downloading :download:`this <../downloads/data.txt>` data fil
 If you have trouble downloading the file, then start up IPython (``ipython --pylab``) and enter::
 
     import urllib2
-    url = 'http://python4astronomers.github.com/_downloads/data.txt'
+    url = 'http://python4esac.github.com/_downloads/data.txt'
     open('data.txt', 'wb').write(urllib2.urlopen(url).read())
     ls
 
@@ -601,12 +601,13 @@ rewrite the same code every time when it is already done!).  Instead just use `a
      table3 = html2tsv(html, 2)   # Parse the third table
 
    Now examine what you got in the ``table`` variables and use
-   `asciitable.read()`_ to parse the right one into a table.  Then plot a
-   histogram of the redshift distribution in this sample.
+   `asciitable.read()`_ to parse the right one into a table. 
 
-   **HINT**: the table has missing values so include ``fill_values=('', '-1')`` in
-   the call to `asciitable.read()`_.  `Asciitable`_ has robust functionality to `replace bad or
-   missing values <http://cxc.cfa.harvard.edu/contrib/asciitable/#replace-bad-or-missing-values>`_.
+   **HINT**: the table has missing values so include
+   ``fill_values=('', '-1')`` in the call to `asciitable.read()`_.
+   `Asciitable`_ has robust functionality to `replace bad or missing
+   values
+   <http://cxc.cfa.harvard.edu/contrib/asciitable/#replace-bad-or-missing-values>`_.
 
 .. raw:: html
 
@@ -617,7 +618,11 @@ The data are in the second table, so do::
   dat = asciitable.read(table2, fill_values=('', '-1'))
   dat.dtype
   dat.dtype.names
-  hist(dat['z'], bins=50)
+
+We can also plot a histogram of the redshift distribution in this
+sample (stay tuned for the matplotlib courses tomorrow!)::
+
+  plt.hist(dat['z'], bins=50)
 
 .. image:: xjet_hist.png
    :scale: 50

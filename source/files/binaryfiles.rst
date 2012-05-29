@@ -33,13 +33,12 @@ more than hundred pages long.
         ls
 
     Read in the fits file. Find the time and date of the
-    observation. Then use ``plt.imshow()`` to display the intensity
-    array using some sensible minimum and maximum value so that the
-    spectrum is visible.
+    observation, and read the intensity array.
+
 
 .. raw:: html
 
-   <p class="flip6">Click to Show/Hide Solution</p> <div class="panel6">
+   <p class="flip1">Click to Show/Hide Solution</p> <div class="panel1">
 
 Here is a possible solution::
     
@@ -52,13 +51,16 @@ Here is a possible solution::
     head['TTIMEOBS']
     img = hdus[1].data      # Intensity data
 
+We can use ``plt.imshow()`` (matplotlib again) to display the
+intensity array using some sensible minimum and maximum value so that
+the spectrum is visible::
+
     plt.clf()
     plt.imshow(img, origin = 'lower', vmin = -10, vmax = 65)
     plt.colorbar()
 
-You might recognize this piece of code. It was used before in the
-:doc:`../core/numpy_scipy` part of the tutorial, but now you should
-understand the ``pyfits`` commands in more detail.
+We will revisit this piece of code in the :doc:`../core/numpy_scipy`
+part of the tutorial.
 
 .. raw:: html
 
@@ -76,17 +78,17 @@ store arbitrary objects to a file.
   >>> pickle.load(file('test.pkl'))
   [1, None, 'Stan']
 
- The ``protocol`` keyword specifies the algorithm used to convert the
- object into a binary file. ``protocol=2`` is fastest and creates the
- smallest files, and should be preferred.
+The ``protocol`` keyword specifies the algorithm used to convert the
+object into a binary file. ``protocol=2`` is fastest and creates the
+smallest files, and should be preferred.
 
- A drawback of the pickle format is that earlier versions of Python
- than the version used to create the pickle may not be able to read
- it. The higher the protocol level (level 2 is the highest), the less
- likely an earlier version of Python can read the file. For this
- reason it's best to restrict pickling to saving temporary
- results. For long-term storage other binary formats, such as FITS or
- HDF5, are better.
+A drawback of the pickle format is that earlier versions of Python
+than the version used to create the pickle may not be able to read
+it. The higher the protocol level (level 2 is the highest), the less
+likely an earlier version of Python can read the file. For this
+reason it's best to restrict pickling to saving temporary
+results. For long-term storage other binary formats, such as FITS or
+HDF5, are better.
 
 ``json``: text file persistence
 ===============================
@@ -112,14 +114,16 @@ pickling::
     >>> d
     {u'Dec': -40.0112, u'RA': 2.34531, u'name': u'G0001'}
 
-.. Note:: Unicode
+.. note:: 
 
-  Note the ``u`` in front of the strings in the dictionary after the
-  json file has been read. This is because the strings are saved as
-  unicode. Mostly you can ignore the difference between ascii and
-  unicode strings for scientific programming, but for more information
-  see here. Unifying the ascii and unicode types into a single string
-  type is one the major changes between Python 2.x and Python 3.
+  **Unicode:** The ``u`` in front of the strings in the dictionary
+  after the json file has been read stands for unicode. This is
+  because the strings are saved as unicode. Mostly you can ignore the
+  difference between ascii and unicode strings for scientific
+  programming, but for more information see `here
+  <http://docs.python.org/howto/unicode.html>`_. Unifying the ascii
+  and unicode types into a single string type is one of the major
+  changes between Python 2.x and Python 3.
 
 Reading IDL .sav files
 ======================
@@ -143,7 +147,7 @@ file, then use IPython::
     ls
 
 What can you do?
-    1. Convert your collegue to use a different file format.
+    1. Convert your colleague to use a different file format.
     2. Read that file in python.
 
 If you have a relatively recent version (at least 0.9) of ``scipy``
@@ -173,17 +177,18 @@ Then import the package and read the data::
 
     ``idlsave`` already prints some information on the screen while
     reading the file. Inspect the object ``data``, find out how you
-    use it and plot the ``x`` and ``y`` data in it.
+    use it to access the ``x`` and ``y`` data in it.
 
 .. raw:: html
 
-   <p class="flip6">Click to Show/Hide Solution</p> <div class="panel6">
+   <p class="flip2">Click to Show/Hide Solution</p> <div class="panel2">
 
 ``data`` is a dictionary and all the variables in the ``.sav`` file
 are fields in this dictionary. You get a list with
 ``data.keys()``. Then, this is easy::
     
-    plt.plot(data['x'], data['y'])
+    data['x']
+    data['y']
 
 .. raw:: html
 
