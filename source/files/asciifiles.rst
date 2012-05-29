@@ -28,11 +28,14 @@ If you have trouble downloading the file, then start up IPython (``ipython --pyl
     open('data.txt', 'wb').write(urllib2.urlopen(url).read())
     ls
 
-Now let's try and get the contents of the file into IPython. We start off by creating a file object::
+Now let's try and get the contents of the file into IPython. We start
+off by creating a file object::
 
     f = open('data.txt', 'r')
 
-The ``'r'`` means that the file should be opened in *read* mode (i.e. you will get an error if the file does not exist). Now, simply type::
+The ``'r'`` means that the file should be opened in *read* mode
+(i.e. you will get an error if the file does not exist). Now, simply
+type::
 
     f.read()
 
@@ -68,12 +71,11 @@ Now ``data`` contains a string::
 
 .. admonition:: Closing files
 
-  Usually, you should close file when you are done with it to free up 
-  resources (memory). 
-  If you only have a couple of files in an interactive session, that is not 
-  dramatic. On the other hand, if you write scrits which deal with douzens of 
-  files, then you should start worrying about these things. Often you will see 
-  things like this::
+  Usually, you should close file when you are done with it to free up
+  resources (memory).  If you only have a couple of files in an
+  interactive session, that is not dramatic. On the other hand, if you
+  write scripts which deal with dozens of files, then you should start
+  worrying about these things. Often you will see things like this::
       
       with open('data.txt', 'r') as f:
           # do things with your file
@@ -86,13 +88,20 @@ Now ``data`` contains a string::
   occured inside the ``with`` block.
 
 
-But what we'd really like to do is read the file line by line. There are several ways to do this, the simplest of which is to use a ``for`` loop in the following way::
+Reading the entire file at once limits us to reading files that with
+fit into our computer's memory. What we'd really like to do is read
+the file line by line. There are several ways to do this, the simplest
+of which is to use a ``for`` loop in the following way::
 
     f = open('data.txt', 'r')
     for line in f:
         print repr(line)
 
-Notice the indent before ``print``, which is necessary to indicate that we are inside the loop (there is no ``end for`` in Python). Note that we are using ``repr()`` to show any invisible characters (this will be useful in a minute). The output should now look something like this::
+Notice the indent before ``print``, which is necessary to indicate
+that we are inside the loop (there is no ``end for`` in Python). Note
+that we are using ``repr()`` to show any invisible characters (this
+will be useful in a minute). The output should now look something like
+this::
 
     >>> for line in f:
             print repr(line)
@@ -108,7 +117,9 @@ Notice the indent before ``print``, which is necessary to indicate that we are i
     '010.686015 +41.269630 00424464+4116106   9.399  0.045\n'
     '010.685270 +41.267124 00424446+4116016  12.070  0.035\n'
 
-Each line is being returned as a string. Notice the ``\n`` at the end of each line - this is a line return character, which indicates the end of a line.
+Each line is being returned as a string. Notice the ``\n`` at the end
+of each line - this is a line return character, which indicates the
+end of a line.
 
 .. note:: You may also come across the following way to read files line by
           line::
@@ -126,7 +137,10 @@ Each line is being returned as a string. Notice the ``\n`` at the end of each li
           instead is more memory efficient because it only reads one line
           at a time.
 
-Now we're reading in a file line by line, what would be really nice would be to get some values out of it.  Let's examine the last line in detail. If we just type ``line`` we should see the last line that was printed in the loop::
+Now we're reading in a file line by line, what would be really nice
+would be to get some values out of it.  Let's examine the last line in
+detail. If we just type ``line`` we should see the last line that was
+printed in the loop::
 
     >>> line
     '010.685270 +41.267124 00424446+4116016  12.070  0.035\n'
@@ -143,7 +157,8 @@ Next, we can use what we learned about strings and lists to do::
     >>> columns
     ['010.685270', '+41.267124', '00424446+4116016', '12.070', '0.035']
 
-Finally, let's say we care about the source name, and the J band magnitude. We can extract these with::
+Finally, let's say we care about the source name, and the J band
+magnitude. We can extract these with::
 
     >>> name = columns[2]
     >>> j = columns[3]
@@ -154,15 +169,19 @@ Finally, let's say we care about the source name, and the J band magnitude. We c
     >>> j
     '12.070'
 
-Note that ``j`` is a string, but if we want a floating point number, we can instead do::
+Note that ``j`` is a string, but if we want a floating point number,
+we can instead do::
 
     >>> j = float(columns[3])
 
-One last piece of information we need about files is how we can read a single line. This is done using::
+One last piece of information we need about files is how we can read a
+single line. This is done using::
 
     line = f.readline()
 
-We can put all this together to write a little script to read the data from the file and display the columns we care about to the screen! Here is is::
+We can put all this together to write a little script to read the data
+from the file and display the columns we care about to the screen!
+Here is is::
 
     # Open file
     f = open('data.txt', 'r')
@@ -194,7 +213,8 @@ The output should look like this::
 
 .. admonition::  Exercise
 
-    Try and see if you can understand what the following script is doing::
+    Try and see if you can understand what the following script is
+    doing::
 
         f = open('data.txt', 'r')
         header1 = f.readline()
@@ -209,7 +229,8 @@ The output should look like this::
             source['j'] = float(columns[3])
             data.append(source)
 
-    After this script is run, how would you access the name and J-band magnitude of the third source?
+    After this script is run, how would you access the name and J-band
+    magnitude of the third source?
 
 .. raw:: html
 
@@ -219,7 +240,8 @@ The following line creates an empty list to contain all the data::
 
     data = []
 
-For each line, we are then creating an empty dictionary and populating it with variables we care about::
+For each line, we are then creating an empty dictionary and populating
+it with variables we care about::
 
     source = {}
     source['name'] = columns[2]
@@ -230,7 +252,6 @@ Finally, we append this source to the ``data`` list::
     data.append(source)
 
 Therefore, ``data`` is a list of dictionaries::
-
 
     >>> data
     [{'j': 9.453, 'name': '00424433+4116085'},
@@ -262,11 +283,13 @@ To open a file for writing, use::
 
     f = open('data_new.txt', 'wb')
 
-Then simply use ``f.write()`` to write any content to the file, for example::
+Then simply use ``f.write()`` to write any content to the file, for
+example::
 
     f.write("Hello, World!\n")
 
-If you want to write multiple lines, you can either give a list of strings to the ``writelines()`` method::
+If you want to write multiple lines, you can either give a list of
+strings to the ``writelines()`` method::
 
     f.writelines(['spam\n', 'egg\n', 'spam\n'])
 
@@ -282,7 +305,10 @@ To close a file, simply use::
 
 .. admonition::  Exercise
 
-    Let's try combining reading and writing. Using at most seven lines, write a script which will read in ``data.txt``, replace any spaces with periods (``.``), and write the result out to a file called ``data_new.txt``.
+    Let's try combining reading and writing. Using at most seven
+    lines, write a script which will read in ``data.txt``, replace any
+    spaces with periods (``.``), and write the result out to a file
+    called ``data_new.txt``.
 
     Can you do it in a single line? (you can ignore closing the file)
 
@@ -306,6 +332,10 @@ And a possible one-liner!::
 
     open('data_new.txt', 'w').write(open('data.txt', 'r').read().replace(' ', '.'))
 
+Even though one-liners like this are possible in Python, they are
+generally considered poor style because they are much less readable
+than the longer version above.
+
 .. raw:: html
 
    </div>
@@ -313,7 +343,9 @@ And a possible one-liner!::
 
 Numpy
 =====
-Numpy provides two functions to read in ASCII data. ``np.loadtxt`` is meant for relatively simple tables without missing values::
+
+Numpy provides two functions to read in ASCII data. ``np.loadtxt`` is
+meant for relatively simple tables without missing values::
 
     from StringIO import StringIO   # Pretends your variable is really a file
                                     # because loadtxt expect a filename as input
@@ -338,10 +370,14 @@ Here is a more complicated example, that is actually useful::
 
     plt.errorbar(data['FIP'], data['abund'], yerr = data['error'], fmt = 'o')
 
-The resulting plot clearly shows the inverse first ionization potential effect.
-That means, that elements of a large FIP are enhanced in the corona.
+The resulting plot clearly shows the inverse first ionization
+potential effect. That means, that elements of a large FIP are
+enhanced in the corona.
 
-The second command ``np.genfromtxt`` is more versatile. It can fill missing values in a table, read column names, exclude some columns etc. Here is an example::
+The second command ``np.genfromtxt`` is more versatile. It can fill
+missing values in a table, read column names, exclude some columns and
+guess the data-type of the columns using ``dtype=None``. Here is an
+example::
     
     d = StringIO('''
     #element abund error FIP
@@ -351,9 +387,9 @@ The second command ``np.genfromtxt`` is more versatile. It can fill missing valu
     Ne 2.46 0.08 21.6
     S  nn   nn   10.4
     Fe 0.19 0.01  7.9
-    other elements were not meesured
+    other elements were not measured
     ''')
-    data = np.genfromtxt(d, dtype=('S2', 'f4', 'f4', 'f4'), names = True, \
+    data = np.genfromtxt(d, dtype=None, names = True, \
          skip_footer = 1, missing_values = ('nn'), filling_values=(np.nan))
 
 Examine what was returned::
@@ -362,9 +398,9 @@ Examine what was returned::
 
 This is an instance of the NumPy `structured array
 <http://docs.scipy.org/doc/numpy/user/basics.rec.html#module-numpy.doc.structured_arrays>`_
-type, which is an efficient way to manipulate records of tabular data.  It stores
-columns of typed data and you can access either a column of data or a row of
-data at once::
+type, which is an efficient way to manipulate records of tabular data.
+It stores columns of typed data and you can access either a column of
+data or a row of data at once::
 
   data.dtype
   data[1]
@@ -431,7 +467,7 @@ the table input.  There is some flexibility here and you can supply any of the f
   - List of strings where each list element is a table line
 
 Guessing
-^^^^^^^^^^
+^^^^^^^^
 
 Even though it seems obvious to a human, parsing this table to get the right
 column names, data values and data types is not trivial.  `Asciitable`_ needed
@@ -469,7 +505,7 @@ in the `Extension Reader Classes
 <http://cxc.harvard.edu/contrib/asciitable/#extension-reader-classes>`_ section.
 
 No guessing
-^^^^^^^^^^^^
+^^^^^^^^^^^
 
 For some tricky tables you will want to disable guessing and explicitly provide
 the relevant table format information to the `asciitable.read()`_ function.
@@ -535,18 +571,10 @@ rewrite the same code every time when it is already done!).  Instead just use `a
 
 .. admonition::  Exercise: scraping table data from the web
 
-   To do this exercise you must first install the `BeautifulSoup
-   <http://www.crummy.com/software/BeautifulSoup/>`_ package which will parse
-   HTML pages into nice data structures.  **QUIT** your IPython session and from the command line do::
-     
-     easy_install [--user] BeautifulSoup
 
-   Use the ``--user`` flag if you prefer to install the package into your local
-   user area instead of within the system Python installation.
-
-   Now start IPython again and define the following function which converts an
-   HTML table to a list of lines with tab-separated values (this will be more
-   clear in the next part)::
+   Define the following function which converts an HTML table to a
+   list of lines with tab-separated values (this will be more clear in
+   the next part)::
 
      from BeautifulSoup import BeautifulSoup
      def html2tsv(html, index=0):

@@ -225,18 +225,3 @@ modules.  Initialized from PYTHONPATH:
      '/Users/cburns/local/lib/python2.5/site-packages/virtualenv-1.2-py2.5.egg',
      ...
 
-``pickle``: easy persistence
-----------------------------
-
-The Pickle module is useful to store arbitrary objects to a
-file. However, it isn't safe (don't use it for long-term storage) or
-very fast.
-
-  >>> import pickle
-
-  >>> l = [1, None, 'Stan']
-
-  >>> pickle.dump(l, file('test.pkl', 'w'))
-
-  >>> pickle.load(file('test.pkl'))
-  [1, None, 'Stan']

@@ -1,16 +1,18 @@
 Running Python code
 ===================
 
-Before we learn about the actual Python language, we need to know where to
-enter it. Python can be used either interactively, or from scripts. There is
-not one right way to do it, and it depends whether you are interested in an
-interactive exploratory analysis, or running or re-running a more complex
-program.
+Before we learn about the actual Python language, we need to know
+where to enter it. Python can be used either interactively, or from
+scripts. There is not one right way to do it, and it depends whether
+you are interested in an interactive exploratory analysis, or running
+or re-running a more complex program.
 
 Interactive use
 ---------------
 
-To run Python code interactively, one can use the standard Python prompt, which can be launched by typing ``python`` in your standard shell::
+To run Python code interactively, one can use the standard Python
+prompt, which can be launched by typing ``python`` in your standard
+shell::
 
     $ python
     Python 2.7.2 (default, Nov  5 2011, 20:09:20)
@@ -18,15 +20,25 @@ To run Python code interactively, one can use the standard Python prompt, which 
     Type "help", "copyright", "credits" or "license" for more information.
     >>>
 
-The ``>>>`` indicates that Python is ready to accept commands. If you type ``a=1`` then press enter, this will assign the value ``1`` to ``a``. If you then type ``a`` you will see the value of ``a`` (this is equivalent to ``print a``)::
+The ``>>>`` indicates that Python is ready to accept commands. If you
+type ``a=1`` then press enter, this will assign the value ``1`` to
+``a``. If you then type ``a`` you will see the value of ``a`` (this is
+equivalent to ``print a``)::
 
     >>> a = 1
     >>> a
     1
 
-The Python shell can execute any Python code, even multi-line statements, though it is often more convenient to use Python non-interactively for such cases.
+The Python shell can execute any Python code, even multi-line
+statements, though it is often more convenient to use Python
+non-interactively for such cases.
 
-The default Python shell is limited, and in practice, you will want instead to use the IPython (or interactive Python) shell. This is an add-on package that adds many features to the default Python shell, including the ability to edit and navigate the history of previous commands, as well as the ability to tab-complete variable and function names. To start up IPython, type::
+The default Python shell is limited, and in practice, you will want
+instead to use the IPython (or interactive Python) shell. This is an
+add-on package that adds many features to the default Python shell,
+including the ability to edit and navigate the history of previous
+commands, as well as the ability to tab-complete variable and function
+names. To start up IPython, type::
 
     $ ipython
     Python 2.7.2 (default, Nov  5 2011, 20:09:20)
@@ -40,7 +52,9 @@ The default Python shell is limited, and in practice, you will want instead to u
 
     In [1]:
 
-The ``>>>`` symbols are now replaced by ``In [x]``, and output, when present, is prepended with ``Out [x]``. If we now type the same commands as before, we get::
+The ``>>>`` symbols are now replaced by ``In [x]``, and output, when
+present, is prepended with ``Out [x]``. If we now type the same
+commands as before, we get::
 
     In [1]: a = 1
 
@@ -79,7 +93,7 @@ We can then run the script on the command-line with::
   the printing has to be explicitly requested with the print
   command. To print multiple variables, just separate them with a
   comma after the print command: ``print a, 1.5, "spam"``. To print
-  variable within strings use the following syntax: ``print ("This is
+  variables within strings use the following syntax: ``print ("This is
   a integer: %d, this is a float: %f, and is a string: %s" % (5,
   3.141, "spam"))``
 

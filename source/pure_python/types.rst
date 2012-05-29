@@ -3,26 +3,34 @@
 Python Built-in Types and Operations
 ====================================
 
-Python supports a number of built-in types and operations. This tutorial covers the most common types, but information about additional types is available `here <http://docs.python.org/library/stdtypes.html>`_
+Python supports a number of built-in types and operations. This
+tutorial covers the most common types, but information about
+additional types is available `here
+<http://docs.python.org/library/stdtypes.html>`_
 
 Basic numeric types
 -------------------
 
-The basic data numeric types are similar to those found in other languages, including:
+The basic data numeric types are similar to those found in other
+languages, including:
 
 * Integers (``int``)::
 
-    >>> i = 1
+    i = 1
 
 * Floating point values (``float``)::
 
-    >>> f = 4.3
+    f = 4.3
 
 * Complex values (``complex``)::
 
-    >>> c = complex(4., -1.)
+    c = complex(4., -1.)
 
-Manipulating these behaves the way you would expect, so an operation (``+``, ``-``, ``/``, ``*``, ``**``, etc.) on two values of the same type produces another value of the same type, while an operation on two values with different types produces a value of the more 'advanced' type:
+Manipulating these behaves the way you would expect, so an operation
+(``+``, ``-``, ``/``, ``*``, ``**``, etc.) on two values of the same
+type produces another value of the same type, while an operation on
+two values with different types produces a value of the more
+'advanced' type:
 
 * Adding two integers gives an integer::
 
@@ -104,16 +112,15 @@ both of which can contain inhomogeneous data types:
 
     **Indexing starts at 0** (as in C), not at 1 (as in Fortran or Matlab)!
 
-* Slicing: obtaining sublists of regularly-spaced elements::
+* We can obtain sublists of regularly-spaced elements in a list by
+  'slicing'::
 
-    >>> l
-    [1, 2, 3, 4, 5]
+    >>> l = [1, 2, 3, 4, 5]
     >>> l[2:4]
     [3, 4]
 
-**Slicing syntax**: `l[start:stop:stride]`
-
-All slicing parameters are optional::
+Slicing syntax is `l[start:stop:stride]`.  All the slicing parameters
+are optional::
 
     >>> l[3:]
     [4, 5]
@@ -121,6 +128,27 @@ All slicing parameters are optional::
     [1, 2, 3]
     >>> l[::2]
     [1, 3, 5]
+
+.. Warning::
+
+    Note that ``l[start:stop]`` contains the elements with indices
+    ``i`` such that ``start<= i < stop`` (``i`` ranging from ``start``
+    to ``stop-1``). Therefore, ``l[start:stop]`` has ``(stop-start)``
+    elements.
+
+We can also use negative numbers when slicing. These count from the
+**end** of the sequence:
+
+    >>> l[-1]
+    5
+    >>> l[-2:]
+    [4, 5]
+
+Using a negative step moves from higher to lower indices. For example,
+to reverse `l`::
+
+    >>> l[::-1]
+    [5, 4, 3, 2, 1]
 
 Lists are *mutable* objects and can be modified::
 
@@ -131,31 +159,15 @@ Lists are *mutable* objects and can be modified::
     >>> l
     [28, 2, 3, 8, 5]
 
-.. Warning::
+The elements of a list may have different types::
 
-    Note that ``l[start:stop]`` contains the elements with indices ``i``
-    such as  ``start<= i < stop`` (``i`` ranging from ``start`` to
-    ``stop-1``). Therefore, ``l[start:stop]`` has ``(stop-start)`` elements.
+  >>> l = [3, 2, 'hello']
+  >>> l
+  [3, 2, 'hello']
+  >>> l[1], l[2]
+  (2, 'hello')
 
-.. Note::
-
-    The elements of a list may have different types::
-
-	>>> l = [3, 2, 'hello']
-	>>> l
-	[3, 2, 'hello']
-	>>> l[1], l[2]
-	(2, 'hello')
-
-    For collections of numerical data that all have the same type, it
-    is often **more efficient** to use the ``array`` type provided by
-    the ``numpy`` module. A NumPy array is a chunk of memory
-    containing fixed-sized items.  With NumPy arrays, operations on
-    elements can be faster because elements are regularly spaced in
-    memory and more operations are perfomed through specialized C
-    functions instead of Python loops.
-
-Python offers a large pnumber of functions to modify lists, or query
+Python offers a large number of functions to modify lists, or query
 them. Here are a few examples; for more details, see
 http://docs.python.org/tutorial/datastructures.html#more-on-lists
 
@@ -172,15 +184,6 @@ Add and remove elements::
     >>> l.extend([6, 7]) # extend l, in-place
     >>> l
     [1, 2, 3, 4, 5, 6, 7]
-    >>> l = l[:-2]
-    >>> l
-    [1, 2, 3, 4, 5]
-
-Reverse `l`::
-
-    >>> r = l[::-1]
-    >>> r
-    [5, 4, 3, 2, 1]
 
 Concatenate and repeat lists:: 
 
@@ -204,7 +207,6 @@ Sort r (in-place)::
     called using the notation **.**. No further knowledge of OOP than
     understanding the notation **.** is necessary for going through
     this tutorial.
-
 
 The difference between lists and tuples is that lists are mutable, and
 tuples are immutable::
@@ -251,6 +253,15 @@ or tuple::
 
     >>> 'a' in set(['a', 'b', 'c', 'd', 'e', 'f'])
     True
+
+For collections of numerical data that all have the same type, it is
+often **more efficient** to use the ``array`` type provided by the
+``numpy`` module. A NumPy array is a chunk of memory containing
+fixed-sized items.  With NumPy arrays, operations on elements can be
+faster because elements are regularly spaced in memory and more
+operations are perfomed through specialized C functions instead of
+Python loops.
+
 
 Strings
 -------
@@ -325,6 +336,7 @@ As for lists, and tuples, concatenation is done with ``+``::
 Finally, strings have many methods associated with them like
 ``.replace()`` used above. Here are a few more examples::
 
+    >>> s = "Spam egg spam spam"
     >>> s.upper()
     'SPAM EGG SPAM SPAM'  # An uppercase version of the string
 
@@ -337,8 +349,8 @@ Finally, strings have many methods associated with them like
 Dictionaries
 ------------
 
-One of the remaining types are dictionaries (``dict``) which you can think of
-as look-up tables::
+One of the remaining types are dictionaries (``dict``) which you can
+think of as look-up tables::
 
     >>> d = {'name':'m31', 'ra':10.68, 'dec':41.27}
     >>> d['name']
@@ -359,11 +371,12 @@ A note on Python objects
 
 Most things in Python are objects.  But what is an object?
 
-Every constant, variable, or function in Python is actually a object with a
-type and associated attributes and methods. An *attribute* a property of the
-object that you get or set by giving the <object_name> + dot +
-<attribute_name>, for example ``img.shape``. A *method* is a function that the
-object provides, for example ``img.argmax(axis=0)`` or ``img.min()``.
+Every constant, variable, or function in Python is actually a object
+with a type and associated attributes and methods. An *attribute* a
+property of the object that you get or set by giving the
+<object_name> + dot + <attribute_name>, for example ``img.shape``. A
+*method* is a function that the object provides, for example
+``img.argmax(axis=0)`` or ``img.min()``.
 
 Use tab completion in IPython to inspect objects and start to understand
 attributes and methods. To start off create a list of 4 numbers::
@@ -371,10 +384,9 @@ attributes and methods. To start off create a list of 4 numbers::
     l = [3, 1, 2, 1]
     l.<TAB>
 
-This will show the available attributes and methods for the Python list
-``a``.  **Using <TAB>-completion and help is a very efficient way to learn and later
-remember object methods!**
-::
+This will show the available attributes and methods for the Python
+list ``a``.  **Using <TAB>-completion and help is a very efficient way
+to learn and later remember object methods!** ::
 
     In [17]: a.<TAB>
     a.__add__           a.__ge__            a.__iter__          a.__repr__          a.append
@@ -387,10 +399,10 @@ remember object methods!**
     a.__eq__            a.__imul__          a.__reduce__        a.__str__           a.reverse
     a.__format__        a.__init__          a.__reduce_ex__     a.__subclasshook__  a.sort
 
-For the most part you can ignore all the ones that begin with ``__`` since
-they are generally are internal methods that are not called directly.  At
-the end you see useful looking functions like ``append`` or ``sort`` which
-you can get help for and use::
+For the most part you can ignore all the ones that begin with ``__``
+since they are generally are internal methods that are not called
+directly.  At the end you see useful looking functions like ``append``
+or ``sort`` which you can get help for and use::
 
     a.sort
     a.sort?

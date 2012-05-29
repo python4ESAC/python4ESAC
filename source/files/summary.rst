@@ -1,12 +1,12 @@
 :tocdepth: 2
 
-Summary and excercise
-*********************
+Summary and exercise
+********************
 
-These pages show a way to read most of the files astronomers will need in their day-to-day work. 
-However, no format is so obscure that is could not be used and there are certainly
-files out there that will not fall into one of the categories above.
-Here are some hints:
+These pages show a way to read most of the files astronomers will need
+in their day-to-day work.  However, no format is so obscure that it
+could not be used and there are certainly files out there that will
+not fall into one of the categories above.  Here are some hints:
 
 * If it is an ASCII file, often some manual editing will do the job.
   E.g. in a space-separated table there are missing values::
@@ -16,30 +16,32 @@ Here are some hints:
     bbbb       3
     cccc  4    5
 
-  In a text editor put ``nan`` in the empty space and ``aciitable`` will read the file.
+  In a text editor put ``nan`` in the empty space and ``asciitable``
+  will read the file.
 
 * Google. No file format is too obscure to find a reader for it.
-* When writing files, use standard formats like fits, ascii, hdu5 and not 
-  your personal, undocumented binary format.
+* When writing files, use standard formats like FITS, ascii, HDF5 and
+  not your personal, undocumented binary format.
 
 
 .. admonition::  Final exercise
 
-    A word of warning: This excercise makes use of almost all concepts shown in
+    A word of warning: This exercise makes use of almost all concepts shown in
     the tutorial this far, don't get frustrated. If you are stuck, you are
-    allowed to peak at the solution!
+    allowed to peek at the solution!
 
     We want to compare the X-ray luminosity function (XLF) of young
     star-forming regions.
 
-    The data is taken from the literature, but comes in different formats.
-    Read the tables and plot the XLF (fraction of stars vs. log(L_X)) of all
-    three clusters.
+    The data is taken from the literature, but comes in different
+    formats.  Read the tables and plot the XLF (fraction of stars
+    vs. log(L_X)) of all three clusters.
 
-    Download the example :download:`data <../downloads/files-excercise.tar.gz>`::
+    Download the example :download:`data
+    <../downloads/files-exercise.tar.gz>`::
 
         import urllib2, tarfile
-        url = 'http://python4astronomers.github.com/_downloads/files-excercise.tar.gz'
+        url = 'http://python4astronomers.github.com/_downloads/files-exercise.tar.gz'
         tarfile.open(fileobj=urllib2.urlopen(url), mode='r|gz').extractall()
         cd files
         ls
@@ -52,13 +54,14 @@ Here are some hints:
 
         ``IC348.dat``
             CDS machine readable table, downloaded directly from CDS.
-            All documentation is in the file itself. Open the file in your 
-            preferred text viewer (vi, emacs, less) and you will see that column
-            ``XLum`` contains the X-ray luminosities in unites of 1e28 erg/s.
+            All documentation is in the file itself. Open the file in
+            your preferred text viewer (vi, emacs, less) and you will
+            see that column ``XLum`` contains the X-ray luminosities
+            in unites of 1e28 erg/s.
 
-    Read each data file and put the X-ray luminosity in a varible. Normalize all
-    luminosity functions to 1 at log(L_X) = 29.3.
-    Make a plot.
+    Read each data file and put the X-ray luminosity in a
+    varible. Normalize all luminosity functions to 1 at log(L_X) =
+    29.3.  Make a plot.
     
     **Hint 1** All tables have missing L_X values. Be careful when plotting.
     Remember boolean masks from :doc:`../core/numpy_scipy`?::
@@ -70,8 +73,8 @@ Here are some hints:
         # These two lines can be concatenated:
         good_LX_values = dat['Ltc'][dat['Ltc'] > 0]
 
-    **Hint 2** If you have all you luminosities in vector called `L_X` then
-    this code will plot a good XLF::
+    **Hint 2** If you have all your luminosities in vector called
+    `L_X` then this code will plot a good XLF::
         
         L_X.sort()
         # np.arange(len(L_X)) makes a y-axis from 0 to len(L_X)
@@ -83,24 +86,25 @@ Here are some hints:
     **Extra points**:
 
         ``Winston2010tab4.txt``
-            From Winston and al (2010). I took this table from the journal 
-            page and just pasted it into a text file. Open the file in your 
-            preferred text viewer (vi, emacs, less) to decide how
-            you could read this file.
-            The logarithmic X-ray luminosities are in column ``L_X``.
+            From Winston and al (2010). I took this table from the
+            journal page and just pasted it into a text file. Open the
+            file in your preferred text viewer (vi, emacs, less) to
+            decide how you could read this file.  The logarithmic
+            X-ray luminosities are in column ``L_X``.
 
 .. raw:: html
 
    <p class="flip7">Click to Show/Hide Solution</p> <div class="panel7">
 
-This is a complex excercise and several solutions are possible. This is one::
+This is a complex exercise and several solutions are possible. This
+is one::
 
     import asciitable
     import atpy
 
     COUP = atpy.Table('COUP.fits')
     # atpy.Table(... , type = 'ascii') tells atpy to use asciitable to read the file
-    IC348 = atpy.Table('IC348.dat', type = 'ascii')
+    IC348 = atpy.Table('IC348.dat', type='ascii')
 
     # take only L_X greater than 0, that gets rid of nans etc.
     # Nans in the table mark missing values and things like that.
@@ -134,7 +138,7 @@ This is a complex excercise and several solutions are possible. This is one::
     Serplx.sort()
     plt.plot(Serplx, np.arange(len(Serplx), 0, -1, dtype=float)/(Serplx>Lx0).sum(), 's', label = 'Serpens')
     
-And this is how it could look like:
+And this is how it could look:
 
 .. image:: XLF.png
    :scale: 50
