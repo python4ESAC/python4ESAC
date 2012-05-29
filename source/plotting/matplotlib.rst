@@ -358,10 +358,60 @@ zorder			a number determining the plot order (controls overlaps)
    plt.xlim(0, 5)
    plt.ylim(0, 4)
 
+The two-line plotting command can be written in one line in one of the following
+ways (there are more possibilities)::
+
+    plot(x,y,'b*--',linewidth=10,markerfacecolor='r',markeredgecolor='b',markeredgewidth=5,markersize=40)
+    plot(x,y,'*--',color='b',linewidth=10,markerfacecolor='r',markeredgecolor='b',markeredgewidth=5,markersize=40)
+    plot(x,y,marker='*',linestyle='--',color='b',linewidth=10,markerfacecolor='r',markeredgecolor='b',markeredgewidth=5,markersize=40)
+
+
 .. raw:: html
 
    </div>
 
+Colors
+======
+
+Colors can be specified in an number of ways:
+
+* via one of the following 7 abbreviations: ``b``, ``g``, ``r``, ``c``, ``m``, ``y``, ``k``. This is
+  also the default color cycle in matplotlib. That is, if you do not specify
+  a color, the first object will be blue, the second green, then red, cyan,
+  magenta, yellow and finally black. The next will be blue again, then green, red etc...
+* via the name of a color, e.g. ``lightgoldenrodyellow``...
+* via a string of a float between 0 (black) and 1 (white), representing shades of gray.
+* via an RGB tuple ``(1.0,0,1)`` (purple).
+
+The behaviour of the color cycle can be shown with the following code:
+
+.. sourcecode:: python
+    
+    import scipy.special
+    x = np.linspace(0,15,100)
+    for i in range(10):
+        plot(x,scipy.special.jv(i,x))
+
+You can easily define a color cycle based on an existing colormap, and with
+the resolution you want. In the previous example, a color cycle of length 10
+would be more useful:
+
+.. sourcecode:: python
+    
+    import itertools    
+    color_cycle = itertools.cycle(plt.cm.spectral(np.linspace(0,1,10)))
+    for i in range(10):
+        plot(x,scipy.special.jv(i,x),color=color_cycle.next())
+
+The use of the ``cycle`` method from the standard ``itertools`` package ensures
+that when we add a new object to plot, we start over in the color cycle.
+
++------------------------------------+-----------------------------------+
+|  **Default color cycle**           |   **Custom color cycle**          |
++====================================+===================================+
+| .. image:: color_cycle1.png        | .. image:: color_cycle2.png       |
+|    :scale: 50                      |    :scale: 50                     |
++------------------------------------+-----------------------------------+
 
 Some useful functions for controlling plotting
 ==============================================
@@ -483,9 +533,14 @@ data using the `hist()`_ command and then annotate it with some text::
   plt.xlabel('x')
   plt.ylabel('Probability')
   plt.title('Gaussian distribution')
-  plt.text(-2, 0.45, r'$\mu=0,\ \sigma=1$')
+  plt.text(-2, 0.45, r'$\mu=0,\ \sigma=1$') # the prefix are makes it a `raw` string, ensuring that e.g. `\n` is not converted to a return
   plt.xlim(-4, 4)
-  plt.ylim(0, 0.5)
+  plt.ylim(0, 0.5)+------------------------------------+-----------------------------------+
+|  **Background subtracted**         |   **Original**                    |
++====================================+===================================+
+| .. image:: bkg_fit2.png            | .. image:: imgview_img.png        |
+|    :scale: 50                      |    :scale: 50                     |
++------------------------------------+-----------------------------------+
   plt.grid(True)
 
 .. image:: pyplot_text.png
@@ -645,7 +700,12 @@ png format is generally best for putting in talks. For papers and
 posters it's better to use a vector format like ps, pdf or svg. There
 can be small differences between the plot you see on the screen and a
 saved pdf or ps version, so check the saved version looks as you
-expect. (Often the saved vector format version will look better!)
+expect. Often the saved vector format version will look better! However, plotting
+a large number of datapoints often results in a huge filesize. A possible workaround
+might be plotting while adding the ``rasterize=True`` option. If this does not
+help, a way out might be to save it to a png file and embed the bitmap
+in a eps file afterwards. This destroys the purpose of a vector format, but some
+journals require plots in eps format and with a small file size.
 
 You can also save a plot using the button in the plotting window.
 
