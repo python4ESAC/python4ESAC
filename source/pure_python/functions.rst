@@ -41,10 +41,10 @@ used.
 
 .. admonition::  Exercise
 
-    Write a function that multiplies the input argument by 7.  If no
-    argument is given, it prints 7. If the input argument 6, it
-    should print "Answer to the Ultimate Question of Life, The
-    Universe, and Everything."
+    Write a function that prints the value of input argument
+    multiplied by 7.  If no argument is given, it should print 7. If
+    the input argument is 6, it should print "The Answer to the Ultimate
+    Question of Life, The Universe, and Everything."
 
 .. raw:: html
 
@@ -54,13 +54,14 @@ used.
 
     def multiply_by_7(x=1):
         if x == 6:
-            print ("The meaning of life, the Universe and everything.")
+            print ("The Answer to the Ultimate Question of Life, "
+                   "the Universe and Everything.")
         else:
             print x*7
 
-.. raw:: 
+.. raw:: html
 
-   <\div>
+   </div>
 
 Functions can also have both keyword and standard arguments::
 
@@ -95,7 +96,7 @@ convention is::
   ...	  pass
 
 
-Then the doctstring for that function can be accessed with::
+Then the docstring for that function can be accessed with::
 
   >>> help(funcname)
 

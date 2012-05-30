@@ -177,7 +177,10 @@ Then import the package and read the data::
 
     ``idlsave`` already prints some information on the screen while
     reading the file. Inspect the object ``data``, find out how you
-    use it to access the ``x`` and ``y`` data in it.
+    use it to access the ``x`` and ``y`` data in it.  Note you may get
+    an error saying ``KeyError: 'rewrite'``. This can be ignored (it's
+    a bug involving IPython and SciPy).  You can still use tab
+    completion to look at the attributes and methods of ``data``.
 
 .. raw:: html
 
