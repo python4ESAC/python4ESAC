@@ -326,9 +326,9 @@ change the value of certain characters without creating a new string::
       File "<stdin>", line 1, in <module>
     TypeError: 'str' object does not support item assignment
     >>> s.replace('l', 'z', 1)
-    >>> 'hezlo, world!'
+    'hezlo, world!'
     >>> s.replace('l', 'z')
-    >>> 'hezzo, worzd!'
+    'hezzo, worzd!'
 
 As for lists, and tuples, concatenation is done with ``+``::
 

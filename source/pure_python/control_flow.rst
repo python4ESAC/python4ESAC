@@ -128,7 +128,7 @@ The ``range`` function can be used as the iterable in a ``for`` loop.
 
 ::
 
-    >>> for x in range(10):
+    >>> for x in range(1, 10):
     ...    if x != 5 and x != 7:
     ...        print x
     ...
@@ -183,9 +183,7 @@ the loop is executed until ``a`` is equal to or exceeds 10.
 ::
 
     >>> a = 0
-    >>>
     >>> b = 1
-    >>>
     >>> while a < 100:
     ...     print a
     ...     c = a + b
@@ -235,8 +233,10 @@ item number.
 
 * Could use while loop with a counter as above. Or a for loop::
 
+
+    >>> words = ('cool', 'powerful', 'readable')
     >>> for i in range(0, len(words)):
-    ...     print(i, words[i])
+    ...     print i, words[i]
     ...     
     ...     
     0 cool
@@ -245,7 +245,6 @@ item number.
 
 * But Python provides **enumerate** for this::
 
-    >>> words = ('cool', 'powerful', 'readable')
     >>> for index, item in enumerate(words):
     ...     print index, item
     ...     
@@ -268,4 +267,3 @@ List comprehensions provide a shorter and more readable way of writing
 the same loop::
 
   >>> l = [i**2 for i in range(10)]
-
