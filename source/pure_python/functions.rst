@@ -58,7 +58,7 @@ used.
         else:
             print x*7
 
-.. raw:: 
+.. raw:: html
 
    <\div>
 
