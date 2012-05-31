@@ -66,28 +66,6 @@ You should see::
 
   /usr/bin/ipython
 
-Install additional packages
----------------------------
-
-Once you've installed EPDFree you can install the additional packages
-listed in :ref:`python_pkg_requirements`.  Copy and paste the lines
-applicable to your system one at a time, checking that each one works.
-The program outputs may contain various "warnings" which can be
-ignored, but watch for "errors" and look at the end to see if a
-successful installation was reported.
-
-  sudo easy_install --upgrade pip
-  sudo pip install --upgrade distribute
-  pip install --user asciitable
-  pip install --user pyfits
-  pip install --user pywcs
-  pip install --user atpy
-  pip install --user aplpy
-  pip install --user pyregion
-  pip install --user pyparsing
-  pip install --user http://stsdas.stsci.edu/astrolib/vo-0.6.tar.gz
-  pip install --user http://stsdas.stsci.edu/astrolib/coords-0.37.tar.gz
-
 
 Test your installation
 ^^^^^^^^^^^^^^^^^^^^^^
