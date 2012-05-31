@@ -21,6 +21,7 @@ Plotting and Images
    aplpy
    ../contest/bounce
    mayavi_example
+   ga_example
 
 **More advanced plotting (for self-study)**
 
