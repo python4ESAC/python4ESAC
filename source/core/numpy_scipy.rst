@@ -111,17 +111,13 @@ Mac has curl, Windows might not have tar, etc etc).
 
 Now start IPython (``ipython --pylab``) or use your existing session and enter:
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: import urllib2, tarfile, os
-  
-  In [1]: url = 'http://python4astronomers.github.com/core/core_examples.tar'
-  
-  In [1]: tarfile.open(fileobj=urllib2.urlopen(url), mode='r|').extractall()
-  
-  In [1]: cd py4ast/core
-  
-  In [1]: ls
+    import urllib2, tarfile
+    url = 'http://python4astronomers.github.com/core/core_examples.tar'
+    tarfile.open(fileobj=urllib2.urlopen(url), mode='r|').extractall()
+    cd py4ast/core
+    ls
 
 
 Leave this IPython session open for the rest of the workshop.
@@ -157,13 +153,11 @@ three identically sized images providing the 2-d spectral intensity, error
 values, and data quality for each pixel.  The slit direction is along the rows
 (up and down) and wavelength is in columns (left to right).
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: import pyfits
-  
-  In [1]: hdus = pyfits.open('3c120_stis.fits.gz')
-  
-  In [1]: hdus
+  import pyfits
+  hdus = pyfits.open('3c120_stis.fits.gz')
+  hdus
 
 Type ``?hdus`` to get a little more detail on the ``hdus`` object.
 
@@ -171,15 +165,12 @@ Now give meaningful names to each of the three images that are available in the
 FITS HDU list.  You can access element ``n`` in a list with the index ``[n]``,
 where the count starts from 0:
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: primary = hdus[0].data  # Primary (NULL) header data unit
-  
-  In [1]: img = hdus[1].data      # Intensity data
-  
-  In [1]: err = hdus[2].data      # Error per pixel
-  
-  In [1]: dq = hdus[3].data       # Data quality per pixel
+  primary = hdus[0].data  # Primary (NULL) header data unit
+  img = hdus[1].data      # Intensity data
+  err = hdus[2].data      # Error per pixel
+  dq = hdus[3].data       # Data quality per pixel
 
 .. raw:: html
 
@@ -190,21 +181,19 @@ where the count starts from 0:
     The HDUList from a FITS file acts like an ordered dictionary: instead of accessing
     via an index ``n``, you can also access the extensions by *name*:
 
-    .. ipython::
+    .. sourcecode:: python
 
-      In [1]: img = hdus['SCI'].data      # Intensity data
-      
-      In [1]: err = hdus['ERR'].data      # Error per pixel
-      
-      In [1]: dq = hdus['DQ'].data       # Data quality per pixel
+        img = hdus['SCI'].data      # Intensity data
+        err = hdus['ERR'].data      # Error per pixel
+        dq = hdus['DQ'].data       # Data quality per pixel
 
     You can find (and set) the name of an extension throught the header keyword
     ``EXTNAME`` (case-insensitive).
 
-    .. ipython::
+    .. sourcecode:: python
     
-      In [1]: hdus[1].header['extname']
-
+        hdus[1].header['extname']
+ 
     A frequently used convention is to store scientific data in an extension named
     ``SCI``. For more information on FITS files and pyFITS, see the `pyFITS documentation <http://stsdas.stsci.edu/download/wikidocs/The_PyFITS_Handbook.pdf>`_
     
@@ -216,13 +205,11 @@ where the count starts from 0:
 Next have a look at the images using one of the standard Matplotlib plotting
 functions:
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: import pylab as plt # not needed when you run ipython with the pylab option
-
-  In [1]: import numpy as np  # not needed when you run ipython with the pylab option
-
-  In [1]: plt.imshow(img)
+  import pylab as plt # not needed when you run ipython with the pylab option
+  import numpy as np  # not needed when you run ipython with the pylab option
+  plt.imshow(img)
 
 .. raw:: html
 
@@ -241,30 +228,27 @@ functions:
 
    </div>
 
-As you can see, it is hard to see things. So, let's set a few option for this
+As you can see, it is hard to see things. So, let's set a few options for this
 plot. First, we want the origin in the lower left instead of the upper left
 corner:
 
-.. ipython::
+.. sourcecode:: python
     
-    In [1]: plt.clf()
-
-    In [1]: plt.imshow(img, origin = 'lower')
-
+    plt.clf()
+    plt.imshow(img, origin = 'lower')
+    
 Second, let's change the scaling to something more sensible. By default,
 ``plt.imshow()`` scales the colorbar from the minimum to the maximum value. In
 our case that is not the best option. We can set a lower and upper bound and
 add a colorbar to our plot:
 
-.. ipython::
+.. sourcecode:: python
 
-    In [1]: plt.clf()
+    plt.clf()
+    plt.imshow(img, origin = 'lower', vmin = -10, vmax = 65)
+    plt.colorbar()
 
-    In [1]: plt.imshow(img, origin = 'lower', vmin = -10, vmax = 65)
-
-    In [1]: plt.colorbar()
-
-Your plot should not look like this (it is possible that the colormap differs,
+Your plot should look like this (it is possible that the colormap differs,
 if your matplotlib has different defaults set).
 
 .. image:: imgview_img.png
@@ -313,14 +297,36 @@ Next use ``help`` and note the slightly different information that you get::
 Use tab completion to see all the methods in short form::
 
   img.<TAB>
+  img.T                    img.__floordiv__         img.__isub__             img.__reduce__           img.__xor__              img.dumps                img.reshape
+  img.__abs__              img.__format__           img.__iter__             img.__reduce_ex__        img.all                  img.fill                 img.resize
+  img.__add__              img.__ge__               img.__itruediv__         img.__repr__             img.any                  img.flags                img.round
+  img.__and__              img.__getattribute__     img.__ixor__             img.__rfloordiv__        img.argmax               img.flat                 img.searchsorted
+  img.__array__            img.__getitem__          img.__le__               img.__rlshift__          img.argmin               img.flatten              img.setfield
+  img.__array_finalize__   img.__getslice__         img.__len__              img.__rmod__             img.argsort              img.getfield             img.setflags
+  img.__array_interface__  img.__gt__               img.__long__             img.__rmul__             img.astype               img.imag                 img.shape
+  img.__array_prepare__    img.__hash__             img.__lshift__           img.__ror__              img.base                 img.item                 img.size
+  img.__array_priority__   img.__hex__              img.__lt__               img.__rpow__             img.byteswap             img.itemset              img.sort
+  img.__array_struct__     img.__iadd__             img.__mod__              img.__rrshift__          img.choose               img.itemsize             img.squeeze
+  img.__array_wrap__       img.__iand__             img.__mul__              img.__rshift__           img.clip                 img.max                  img.std
+  img.__class__            img.__idiv__             img.__ne__               img.__rsub__             img.compress             img.mean                 img.strides
+  img.__contains__         img.__ifloordiv__        img.__neg__              img.__rtruediv__         img.conj                 img.min                  img.sum
+  img.__copy__             img.__ilshift__          img.__new__              img.__rxor__             img.conjugate            img.nbytes               img.swapaxes
+  img.__deepcopy__         img.__imod__             img.__nonzero__          img.__setattr__          img.copy                 img.ndim                 img.take
+  img.__delattr__          img.__imul__             img.__oct__              img.__setitem__          img.ctypes               img.newbyteorder         img.tofile
+  img.__delitem__          img.__index__            img.__or__               img.__setslice__         img.cumprod              img.nonzero              img.tolist
+  img.__delslice__         img.__init__             img.__pos__              img.__setstate__         img.cumsum               img.prod                 img.tostring
+  img.__div__              img.__int__              img.__pow__              img.__sizeof__           img.data                 img.ptp                  img.trace
+  img.__divmod__           img.__invert__           img.__radd__             img.__str__              img.diagonal             img.put                  img.transpose
+  img.__doc__              img.__ior__              img.__rand__             img.__sub__              img.dot                  img.ravel                img.var
+  img.__eq__               img.__ipow__             img.__rdiv__             img.__subclasshook__     img.dtype                img.real                 img.view
+  img.__float__            img.__irshift__          img.__rdivmod__          img.__truediv__          img.dump                 img.repeat 
 
 Finally find the shape of the image and its minimum value:
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: img.shape  # Get the shape of img
-
-  In [1]: img.min()  # Call object method min with no arguments
+  img.shape  # Get the shape of img
+  img.min()  # Call object method min with no arguments
 
 
 NumPy basics
@@ -334,19 +340,14 @@ Making arrays
 
 Arrays can be created in different ways:
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: a = np.array([10, 20, 30, 40])   # create an array from a list of values
-
-  In [1]: a
-
-  In [1]: b = np.arange(4)                 # create an array of 4 integers, from 0 to 3
-  
-  In [1]: b
-
-  In [1]: np.linspace(-np.pi, np.pi, 5)      # create an array of 5 evenly spaced samples from -pi to pi
-  
-  In [1]: np.logspace(1,3,9) # create a log-spaced array of 9 floats between (and including) 10 and 1000
+  a = np.array([10, 20, 30, 40])   # create an array from a list of values
+  a
+  b = np.arange(4)                 # create an array of 4 integers, from 0 to 3  
+  b
+  np.linspace(-np.pi, np.pi, 5)      # create an array of 5 evenly spaced samples from -pi to pi
+  np.logspace(1,3,9) # create a log-spaced array of 9 floats between (and including) 10 and 1000
 
 The function ``arange`` is better only used when working with integer arguments.
 
@@ -359,21 +360,18 @@ The function ``arange`` is better only used when working with integer arguments.
     A general interface for creating arrays in provided by ``np.mgrid``. The syntax
     is slightly different than before, because it uses index slices instead of arguments.
 
-    .. ipython::
+    .. sourcecode:: python
 
-      In [1]: np.mgrid[0:5:1]
-  
-      In [1]: np.mgrid[0:5:10j]
+        np.mgrid[0:5:1]
+        np.mgrid[0:5:10j]
 
     And in more dimensions:
 
-    .. ipython::
+    .. sourcecode:: python
 
-      In [1]: x,y = np.mgrid[-1:3:5j,0:2:0.5]
-
-      In [1]: x
-  
-      In [2]: y
+      x,y = np.mgrid[-1:3:5j,0:2:0.5]
+      x
+      y
 
     
 .. raw:: html
@@ -382,65 +380,51 @@ The function ``arange`` is better only used when working with integer arguments.
   
 New arrays can be obtained by operating with existing arrays:
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: a + b**2            # elementwise operations
+  a + b**2            # elementwise operations
 
 
 Arrays may have more than one dimension:
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: f = np.ones([3, 4])                 # 3 x 4 float array of ones
-  
-  In [1]: f
-
-  In [1]: g = np.zeros([2, 3, 4], dtype=int)  # 3 x 4 x 5 int array of zeros
-  
-  In [1]: g
-
-  In [1]: i = np.zeros_like(f)                # array of zeros with same shape/type as f
+  f = np.ones([3, 4])                 # 3 x 4 float array of ones  
+  f
+  g = np.zeros([2, 3, 4], dtype=int)  # 3 x 4 x 5 int array of zeros  
+  g
+  i = np.zeros_like(f)                # array of zeros with same shape/type as f
 
 
 You can change the dimensions of existing arrays:
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: w = np.arange(12)
-
-  In [1]: w.shape = [3, 4]       # does not modify the total number of elements
-
-  In [1]: w
-
-  In [1]: x = np.arange(5)
-  
-  In [1]: x
- 
-  In [1]: y = x.reshape(5, 1)
-  
-  In [1]: y = x.reshape(-1, 1)  # Same thing but NumPy figures out correct length
-  
-  In [1]: y
+  w = np.arange(12)
+  w.shape = [3, 4]       # does not modify the total number of elements
+  w
+  x = np.arange(5)  
+  x 
+  y = x.reshape(5, 1)  
+  y = x.reshape(-1, 1)  # Same thing but NumPy figures out correct length
+  y
   
 It is possible to operate with arrays of different dimensions as long as they fit well (broadcasting):
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: x + y * 10
+  x + y * 10
 
 .. warning::
     
     Lists and array behave fundamentally different!
 
-    .. ipython::
+    .. sourcecode:: python
     
-      In [1]: mylist = [1,2,3]
-      
-      In [2]: myarray = np.array([1,2,3])
-      
-      In [3]: mylist*2
-      
-      In [3]: myarray*2
+      mylist = [1,2,3]      
+      myarray = np.array([1,2,3])      
+      mylist*2      
+      myarray*2
   
 .. admonition:: Exercise: Make a ripple
 
@@ -453,29 +437,22 @@ It is possible to operate with arrays of different dimensions as long as they fi
 
    <p class="flip7">Click to Show/Hide Solution</p> <div class="panel7">
 
-.. ipython::
+.. sourcecode:: python
 
-   In [1]: x = np.arange(-20, 20, 0.25)
-
-   In [1]: y = x.reshape(-1, 1)
-
-   In [1]: r = np.sqrt(x**2 + y**2) # note the broadcasting behaviour
-
-   In [1]: z = np.cos(r) / (r + 5)
-
-   In [1]: plt.imshow(z, origin = 'lower)
+   x = np.arange(-20, 20, 0.25)
+   y = x.reshape(-1, 1)
+   r = np.sqrt(x**2 + y**2) # note the broadcasting behaviour
+   z = np.cos(r) / (r + 5)
+   plt.imshow(z, origin = 'lower')
 
 or alternatively:
 
-.. ipython::
+.. sourcecode:: python
 
-   In [1]: x,y = np.mgrid[-20:20:200j,-20:20:200j]
-
-   In [1]: r = np.sqrt(x**2 + y**2) # broadcasting not needed because x and y have the same shape
-   
-   In [1]: z = np.cos(r) / (r + 5)
-
-   In [1]: plt.imshow(z, origin = 'lower)
+   x,y = np.mgrid[-20:20:200j,-20:20:200j]
+   r = np.sqrt(x**2 + y**2) # broadcasting not needed because x and y have the same shape   
+   z = np.cos(r) / (r + 5)
+   plt.imshow(z, origin = 'lower')
 
 .. image:: ripple.png
    :scale: 50
@@ -492,28 +469,22 @@ NumPy provides powerful methods for accessing array elements or particular subse
 e.g. the 4th column or every other row.  This is called slicing.  The outputs
 below illustrate basic slicing, but you don't need to type these examples:
 
-.. ipython::
+.. sourcecode:: python
 
-   In [1]: a = np.arange(20).reshape(4,5)
-   
-   In [1]: a
-   
-   In [1]: a[2, 3]   # select element in row 2, col 3 (counting from 0)
-
-   In [1]: a[2, :]   # select every element in row 2
-   
-   In [1]: a[:, 0]   # select every element in col 0
-
-   In [1]: a[0:3, 1:3]
+   a = np.arange(20).reshape(4,5)   
+   a   
+   a[2, 3]   # select element in row 2, col 3 (counting from 0)
+   a[2, :]   # select every element in row 2   
+   a[:, 0]   # select every element in col 0
+   a[0:3, 1:3]
 
 As a first practical
 example plot column 300 of the longslit image to look at the spatial profile:
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: plt.figure()             # make a new figure -- by default matplotlib overplots.
-  
-  In [1]: plt.plot(img[:, 300])
+  plt.figure()             # make a new figure -- by default matplotlib overplots.  
+  plt.plot(img[:, 300])
 
 Note that as long as you don't close existing figures, they will be kept in memory.
 If you want to close the current figure, call ``plt.close()``. If you want to
@@ -541,13 +512,11 @@ The full slicing syntax also allows for a step size::
 
    <p class="flip8">Click to Show/Hide Solution</p> <div class="panel8">
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: plt.clf()
-
-  In [2]: plt.plot(err[254, 10:200:3])
-
-  In [3]: dq[251:254, 101:105]
+  plt.clf()
+  plt.plot(err[254, 10:200:3])
+  dq[251:254, 101:105]
 
 The index upper bound ``i1`` is one more than the final index that gets
 included in the slice.  In other words the slice includes everything up to,
@@ -566,23 +535,19 @@ Plot the spatial profile and raw spectrum
 
 Plot the spatial profile by summing along the wavelength direction:
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: profile = img.sum(axis=1)
-  
-  In [2]: plt.figure()
-
-  In [3]: plt.plot(profile)
+  profile = img.sum(axis=1)
+  plt.figure()
+  plt.plot(profile)
 
 Now plot the spectrum by summing along the spatial direction:
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: spectrum = img.sum(axis=0)
-  
-  In [1]: plt.figure()
-  
-  In [1]: plt.plot(spectrum)
+  spectrum = img.sum(axis=0) 
+  plt.figure()  
+  plt.plot(spectrum)
 
 Since most of the sum is in the background region there is a lot of noise and
 cosmic-ray contamination.
@@ -603,13 +568,11 @@ cosmic-ray contamination.
 
    <p class="flip9">Click to Show/Hide Solution</p> <div class="panel9">
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: spectrum = img[250:260, :].sum(axis=0)
-
-  In [1]: plt.clf()
-
-  In [1]: plt.plot(spectrum)
+  spectrum = img[250:260, :].sum(axis=0)
+  plt.clf()
+  plt.plot(spectrum)
 
 .. image:: spectrum_clean.png
    :scale: 50
@@ -626,11 +589,10 @@ Filter cosmic rays from the background
 
 Plot five columns (wavelength) from the spectrum image as follows:
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: plt.clf()
-
-  In [1]: plt.plot(img[:, 254:259])
+  plt.clf()
+  plt.plot(img[:, 254:259])
 
 .. image:: img_row254_noisy.png
    :scale: 50
@@ -647,29 +609,22 @@ just use the answers already provided by STSci.
 use sigma-clipping to remove large variations between the actual and smoothed
 image.
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: import scipy.signal
-
-  In [1]: img_sm = scipy.signal.medfilt(img, 5)
-
-  In [1]: sigma = np.median(err)
-
-  In [1]: bad = np.abs(img - img_sm) / sigma > 8.0
-
-  In [1]: img_cr = img.copy()
-
-  In [1]: img_cr[bad] = img_sm[bad]
-
-  In [1]: img_cr[230:280,:] = img[230:280,:]  # Filter only for background
+  import scipy.signal
+  img_sm = scipy.signal.medfilt(img, 5)
+  sigma = np.median(err)
+  bad = np.abs(img - img_sm) / sigma > 8.0
+  img_cr = img.copy()
+  img_cr[bad] = img_sm[bad]
+  img_cr[230:280,:] = img[230:280,:]  # Filter only for background
 
 Check if it worked:
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: plt.clf()
-
-  In [1]: plt.plot(img_cr[:, 254:259])
+  plt.clf()
+  plt.plot(img_cr[:, 254:259])
 
 .. image:: img_row254_clean.png
    :scale: 50
@@ -677,30 +632,23 @@ Check if it worked:
 This introduces the important concept of slicing with a **boolean mask**.  Let's
 look at a smaller example:
 
-.. ipython::
+.. sourcecode:: python
 
-   In [1]: a = np.array([1, 4, -2, 4, -5])
-   
-   In [1]: neg = (a < 0)    # Parentheses here for clarity but are not required
-
-   In [1]: neg
-
-   In [1]: a[neg] = 0
-   
-   In [1]: a
+   a = np.array([1, 4, -2, 4, -5])   
+   neg = (a < 0)    # Parentheses here for clarity but are not required
+   neg
+   a[neg] = 0   
+   a
 
 A slightly more complex example shows that this works the same on N-d arrays
 and that you can compose logical expressions:
 
-.. ipython::
+.. sourcecode:: python
 
-   In [1]: a = np.arange(25).reshape(5,5)
-
-   In [1]: ok = (a > 6) & (a < 17)     # "ok = a > 6 & a < 17" will FAIL!
-
-   In [1]: a[~ok] = 0                  # Note the "logical not" operator
-
-   In [1]: a
+   a = np.arange(25).reshape(5,5)
+   ok = (a > 6) & (a < 17)     # "ok = a > 6 & a < 17" will FAIL!
+   a[~ok] = 0                  # Note the "logical not" operator
+   a
    
 .. admonition:: Exercise [intermediate]: circular region slicing
 
@@ -709,17 +657,14 @@ and that you can compose logical expressions:
 
 .. raw:: html
 
-   <p class="flip10">Click to Show/Hide Solution</p> <div class="panel10">
+   <p class="flip3">Click to Show/Hide Solution</p> <div class="panel3">
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: dist = np.sqrt((x-10)**2 + (y-15)**2)
-  
-  In [1]: mask = dist < 10
-  
-  In [1]: z[mask] = 0
-  
-  In [1]: plt.imshow(z, origin = 'lower')
+  dist = np.sqrt((x-10)**2 + (y-15)**2)  
+  mask = dist < 10  
+  z[mask] = 0  
+  plt.imshow(z, origin = 'lower')
 
 .. image:: ripple_masked.png
    :scale: 50
@@ -741,19 +686,14 @@ and that you can compose logical expressions:
    Variable names in Python are just pointers to the actual Python
    object.  To see this clearly do the following:
 
-.. ipython::
+    .. sourcecode:: python
 
-     In [1]: a = np.arange(8)
-     
-     In [1]: b = a
-     
-     In [1]: id(a)     # Unique identifier for the object referred to by "a": arange(8)
-     
-     In [1]: id(b)     # Unique identifier for the object referred to by "b": same ^^
-     
-     In [1]: b[3] = -10
-     
-     In [1]: a
+        a = np.arange(8)     
+        b = a     
+        id(a)     # Unique identifier for the object referred to by "a": arange(8)     
+        id(b)     # Unique identifier for the object referred to by "b": same ^^     
+        b[3] = -10     
+        a
 
    After getting over the initial confusion this behavior is actually a good
    thing because it is efficient and consistent within Python.  If you really
@@ -762,29 +702,22 @@ and that you can compose logical expressions:
    **BEWARE** of one common pitfall: NumPy "basic" slicing like ``a[3:6]``
    does NOT make a copy:
 
-.. ipython::
+    .. sourcecode:: python
 
-     In [1]: b = a[3:6]
-     
-     In [1]: b
-
-     In [1]: b[1] = 100
-     
-     In [1]: a
+        b = a[3:6]     
+        b
+        b[1] = 100     
+        a
 
    However if you do arithmetic or boolean mask then a copy is always made:
 
-.. ipython::
+    .. sourcecode:: python
 
-     In [1]: a = np.arange(4)
-     
-     In [1]: b = a**2
-     
-     In [1]: a[1] = 100
-     
-     In [1]: a
-
-     In [1]: b    # Still as expected after changing "a"
+        a = np.arange(4)     
+        b = a**2     
+        a[1] = 100     
+        a
+        b    # Still as expected after changing "a"
 
 Fit the background
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -795,60 +728,45 @@ image which includes the source region.
 
 Let's tackle a simpler problem first and fit the background for a single column:
 
-.. ipython::
+.. sourcecode:: python
     
-    In [1]: x = np.append(np.arange(10, 200), np.arange(300, 480))  # Background rows
-    
-    In [1]: y = img_cr[x, 10]         # Background rows of column 10 of cleaned image
-    
-    In [1]: plt.figure()
-    
-    In [1]: plt.plot(x, y)
-  
-    In [1]: pfit = np.polyfit(x, y, 2)   # Fit a 2nd order polynomial to (x, y) data
-    
-    In [1]: yfit = np.polyval(pfit, x)   # Evaluate the polynomial at x
-   
-    In [1]: plt.plot(x, yfit)
-   
-    In [1]: plt.grid()
+    x = np.append(np.arange(10, 200), np.arange(300, 480))  # Background rows    
+    y = img_cr[x, 10]         # Background rows of column 10 of cleaned image    
+    plt.figure()    
+    plt.plot(x, y)  
+    pfit = np.polyfit(x, y, 2)   # Fit a 2nd order polynomial to (x, y) data    
+    yfit = np.polyval(pfit, x)   # Evaluate the polynomial at x   
+    plt.plot(x, yfit)   
+    plt.grid()
 
 .. image:: bkg_fit0.png
    :scale: 50
 
 Now do this for every column and store the results in a background image:
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: xrows = np.arange(img_cr.shape[0])          # Array from 0 .. N_rows-1
-
-  In [1]: bkg = np.zeros_like(img_cr)                 # Empty image for background fits
-
-  In [1]: for col in np.arange(img_cr.shape[1]):      # Iterate over columns
-     ...:     pfit = np.polyfit(x, img_cr[x, col], 2) # Fit poly over bkg rows for col
-     ...:     bkg[:, col] = np.polyval(pfit, xrows)   # Eval poly at ALL row positions
-     ...:
-
-  In [1]: plt.clf()
-
-  In [1]: plt.imshow(bkg, origin = 'lower', vmin=0, vmax=20)
-
-  In [1]: plt.colorbar()
+  xrows = np.arange(img_cr.shape[0])          # Array from 0 .. N_rows-1
+  bkg = np.zeros_like(img_cr)                 # Empty image for background fits
+  for col in np.arange(img_cr.shape[1]):      # Iterate over columns
+      pfit = np.polyfit(x, img_cr[x, col], 2) # Fit poly over bkg rows for col
+      bkg[:, col] = np.polyval(pfit, xrows)   # Eval poly at ALL row positions
+  
+  plt.clf()
+  plt.imshow(bkg, origin = 'lower', vmin=0, vmax=20)
+  plt.colorbar()
 
 .. image:: bkg_fit1.png
    :scale: 50
 
 Finally subtract this background and see if it worked:
 
-.. ipython::
+.. sourcecode:: python
 
-  In [1]: img_bkg = img_cr - bkg
-  
-  In [1]: plt.clf()
-  
-  In [1]: plt.imshow(img_bkg, origin = 'lower', vmin=0, vmax=60)
-  
-  In [1]: plt.colorbar()
+  img_bkg = img_cr - bkg  
+  plt.clf()  
+  plt.imshow(img_bkg, origin = 'lower', vmin=0, vmax=60)  
+  plt.colorbar()
 
 
 +------------------------------------+-----------------------------------+

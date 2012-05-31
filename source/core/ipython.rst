@@ -67,7 +67,7 @@ Keyboard navigation and history
 -------------------------------
 
 One of the most useful features of IPython is the ability to edit and navigate
-you command line history. This lets you quickly re-do commands, perhaps with a
+your command line history. This lets you quickly re-do commands, perhaps with a
 slight variation based on seeing the last result. Try cut-n-pasting the above
 lines in an IPython session. This should bring up a plot of a sine wave.
 
@@ -118,11 +118,11 @@ time for interactive analysis it is faster and better to simply type ``x`` (or
 whatever the object name) followed by ``<Return>``. This returns the
 “representation” of the object which is often a cleaner and more informative
 than the “string” version that gets returned with print. In many cases the
-“representation” of an object the same as Python code to create that object.
+“representation” of an object is the same as Python code to create that object.
 
 Try:
 
-.. ipython::
+.. sourcecode:: ipython
 
     In [6]: y = dict((x, 'value is %d' % x**2) for x in range(10))
     
@@ -199,8 +199,8 @@ You see that you end with exactly the same error! The reason for this is that
 once a module is loaded, a new ``import`` statement does not reload it again.
 Before loading a module, the Python interpreter checks if it already exists in
 the local namespace. If it does, the interpreter will simply skip loading the
-module. This means that **a module can only be loaded once**. This is valid in,
-general, and is not a restriction of IPython. To force a reload, you can do:
+module. This means that **a module can only be loaded once**. This is valid in
+general and is not a restriction of IPython. To force a reload, you can do:
 
 .. sourcecode:: ipython
     
