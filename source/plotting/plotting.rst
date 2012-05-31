@@ -22,6 +22,7 @@ Plotting and Images
    ../contest/bounce
    mayavi_example
    ga_example
+   specnorm
 
 **More advanced plotting (for self-study)**
 
