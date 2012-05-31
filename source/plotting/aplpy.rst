@@ -76,7 +76,9 @@ And create a new figure to plot the FITS file with::
 
 The latter is recommended because it will automatically figure out the best resolution with which to output your plot. Your plot should look something like this:
 
-.. image:: ic348_basic.png
+    .. image:: ic348_basic.png
+    :scale: 50
+
 
 Now let's do something a bit more advanced where we'll make a color image from the fits files and plot some extra features on top of it. If you cannot get Montage and python-montage installed, then you can use the already produced files to follow along with the exercise::
     
@@ -119,6 +121,7 @@ Now let's do something a bit more advanced where we'll make a color image from t
 Your final color plot should look something like this:
 
     .. image:: ic348_color_scalebar.png
+    :scale: 50
 
 We're ready at this point to start making science-grade plots with APLpy with contours and markers::
 
@@ -163,12 +166,14 @@ We're ready at this point to start making science-grade plots with APLpy with co
 The science-grade plot should look something like this:
 
     .. image:: ic348_marker_contour.png
+    :scale: 50
 
 .. admonition::  Exercise 1
 
     Use the  ``help`` or ``?`` functionality in ``ipython`` to figure out how to reproduce (within reason) the image below. Additionally, using the tabbing feature to see what other methods are available is key for this exercise. Use the `Quick Reference Guide <http://aplpy.github.com/documentation/quick_reference.html>`_ for other information that may be helpful.
 
     .. image:: per_av_grid_markers.png
+    :scale: 50
 
 .. raw:: html
     
