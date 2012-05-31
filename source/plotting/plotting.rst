@@ -17,6 +17,7 @@ Plotting and Images
    
    matplotlib
    mayavi_example
+   ga_example
 
 **More advanced plotting**
 

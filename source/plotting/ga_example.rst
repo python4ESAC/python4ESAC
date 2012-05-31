@@ -19,7 +19,7 @@ terminology along the way:
     1. A function that needs to be maximized
     2. A function that returns the *fitness* of a set of parameters (*individual* from a *population*)
     3. A function that generates a new individual starting from other individuals
-    (*child* from *parents* via a *breeding mechanism*)
+       (*child* from *parents* via a *breeding mechanism*)
     4. A function that selects *fit* individuals (i.e. individuals with a high
     fitness) for breeding
 
@@ -100,8 +100,8 @@ is then straightforwardly implemented with:
 
     def evolve(sample,eval_func,breed_func):
         fitness = eval_func(sample.T) # evaulation function needs 2xN instead of Nx2
-        sample,fitness_ = rank(sample,copy.copy(fitness))
-        good,bad = select_individuals(sample,fitness_)
+        sample,fitness_ = rank(sample,fitness.copy())
+        good = select_individuals(fitness_)
         children = generate_offspring(sample,good,breed_func)
         sample[bad] = children
         return sample
@@ -143,7 +143,7 @@ exit quitely.
                 if hasattr(child,'get_color') and child.get_color()=='1':
                     sample = np.array(child.get_data()).T # put it in the right format
                     break # make sure `child` is now set to the right artist
-            sample,fitness = evolve(sample,maxfunc,breed_crossover)
+            sample = evolve(sample,maxfunc,breed_crossover)
             child.set_data(sample[:,0],sample[:,1])
         
         if event.key=='i':
@@ -198,7 +198,45 @@ Here, we made a new Slider axes and initiated the main axes used to plot all the
 results to. Then, we connected the ``ontype`` function to the current figure (``plt.gcf()``)
 and showed the main window to the screen.
 
-The first line in statement (``if __name__=="__main__"``) makes sure that this
+.. raw:: html
+
+   <p class="flip0">Click to Show/Hide Event tip</p> <div class="panel0">
+
+.. admonition:: Event tip
+
+    There exist three ``event`` types to which you can connect functions,
+    most often aptly named ``ontype``, ``onclick``, ``onpick``. To connect them,
+    simply type:
+
+    .. sourcecode:: python
+
+        plt.gcf().canvas.mpl_connect('key_press_event',ontype)
+        plt.gcf().canvas.mpl_connect('button_press_event',onclick)
+        plt.gcf().canvas.mpl_connect('pick_event',onpick)
+
+    The ``key_press_event`` is explained in the example.
+
+    The ``button_press_event``
+    is very similar, but naturally the connected function is called when the user
+    clicks somewhere on the canvas. Useful attributes are ``event.x``,``event.xdata``
+    and ``event.y``,``event.ydata`` to get the pixel/data coordinates where the
+    user clicked. The attribute ``button`` tells you whether it was a left (``button=1``),
+    right (``button=3`` or middle click (``button=2``). The attribute ``inaxes``
+    returns the Axes instance in which the click was made.
+
+    The ``pick_event`` is called when the user clicks on an object on the canvas
+    for which the pick-radius is set (via ``picker=5`` for example when calling
+    ``plt.plot``). The pick event attributes include the artist that was clicked
+    (``artist``), and the same ``button`` information as with the ``button_press_event``.
+
+    
+.. raw:: html
+
+   </div>
+
+
+
+The first line in the previous statement (``if __name__=="__main__"``) makes sure that this
 part of the code is only executed when run in the terminal with::
 
     $:> python ga.py

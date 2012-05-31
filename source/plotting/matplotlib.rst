@@ -535,13 +535,9 @@ data using the `hist()`_ command and then annotate it with some text::
   plt.title('Gaussian distribution')
   plt.text(-2, 0.45, r'$\mu=0,\ \sigma=1$') # the prefix are makes it a `raw` string, ensuring that e.g. `\n` is not converted to a return
   plt.xlim(-4, 4)
-  plt.ylim(0, 0.5)+------------------------------------+-----------------------------------+
-|  **Background subtracted**         |   **Original**                    |
-+====================================+===================================+
-| .. image:: bkg_fit2.png            | .. image:: imgview_img.png        |
-|    :scale: 50                      |    :scale: 50                     |
-+------------------------------------+-----------------------------------+
+  plt.ylim(0, 0.5)
   plt.grid(True)
+
 
 .. image:: pyplot_text.png
    :scale: 70

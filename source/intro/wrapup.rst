@@ -4,6 +4,7 @@ Logistics and open discussion
 Agenda
 --------
 
+<<<<<<< HEAD
 The workshop schedule is as follows.  All subsequent workshops are
 hands-on and participants should bring a laptop.
 
@@ -24,13 +25,35 @@ Date     Topic                                   Time           Presenter
 1st June urllib2, ATPy, examples                 14:00-15:30    Neil
 1st June multiprocessing, f2py, more examples    15:45-17:00    Pieter
 ======== ======================================= ============== =========
+=======
+The workshop schedule is as follows.  All subsequent
+workshops are hands-on and participants should bring a laptop.
+
+======== ========================================= ===================== =========
+Date     Topic                                     Time     Presenter
+======== ========================================= ===================== =========
+30/05    Installation and Understanding Packages   09:30 - 10:00         All          
+30/05    Introduction to Python                    10:00 - 11:00         Eli          
+30/05    Pure Python I + II                        11:30 - 13:00         Neil          
+30/05    Reading, Writing                          14:00 - 15:30         Pieter         
+30/05    NumPy, iPython, SciPy I                   15:45 - 17:30         Pieter          
+31/05    NumPy, iPython, SciPy II                  09:30 - 11:00         Pieter          
+31/05    Introduction to Matplotlib                11:30 - 13:00         Pieter          
+31/05    Publication quality plots I + II          14:30 - 15:30         Neil          
+31/05    APLpy I                                   15:45 - 17:30         Eli          
+01/06    APLpy II                                  09:30 - 11:00         Eli          
+01/06    Fitting data + Q&A I                      11:30 - 13:00         Eli          
+01/06    Examples with urllib2 and ATpy + Q&A II   14:00 - 15:30         Neil          
+01/06    Examples with MPI, f2py, statistics       15:45 - 17:00         Pieter          
+======== ========================================= ===================== =========
+>>>>>>> Made changes wrapup.rst for the schedule and links
 
 Workshop materials
 ------------------
 
 All the workshop materials will be available through the web site:
 
- `<http://python4astronomers.github.com>`_
+ `<http://python4esac.github.com/>`_
 
 - Presentations
 - Tutorial and example scripts

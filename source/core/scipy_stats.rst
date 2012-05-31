@@ -36,30 +36,23 @@ and add some noise to them.
 
 First, we need to do the usual imports:
     
-.. ipython::
+.. sourcecode:: python
 
-    In [1]: import numpy as np
-    
-    In [1]: import pylab as plt
-    
-    In [1]: from numpy import pi
-    
-    In [1]: import scipy.stats
+    import numpy as np    
+    import pylab as plt    
+    from numpy import pi    
+    import scipy.stats
     
 Now, generate 8 almost equidistant spacings, and add  3 random ones periods mixed with the equidistant structure. We fix the seed to be able to reproduce
 the results:
     
-.. ipython::
+.. sourcecode:: python
 
-    In [1]: np.random.seed(1111)
-    
-    In [1]: periods = 1.23 + np.arange(8)*0.43 # the spacing and offset
-
-    In [1]: periods += scipy.stats.norm.rvs(size=len(periods),scale=0.005) # add normal noise
-    
-    In [1]: periods = np.hstack([periods,scipy.stats.uniform.rvs(size=3,loc=1.23,scale=3)]) # mix with 3 others
-    
-    In [1]: periods.sort()
+    np.random.seed(1111)    
+    periods = 1.23 + np.arange(8)*0.43 # the spacing and offset
+    periods += scipy.stats.norm.rvs(size=len(periods),scale=0.005) # add normal noise    
+    periods = np.hstack([periods,scipy.stats.uniform.rvs(size=3,loc=1.23,scale=3)]) # mix with 3 others    
+    periods.sort()
     
 Note that we could have used the ``np.random`` module too to generate the
 random variables. However, the ``scipy.stats`` module contains much more
@@ -72,9 +65,9 @@ distributions and many more options. For every statistical distribution, you can
 
 This is a list of spacings we want to test:
 
-.. ipython::
+.. sourcecode:: python
     
-    In [1]: test_spacings = np.linspace(0.05,1,1000)
+    test_spacings = np.linspace(0.05,1,1000)
 
 The Kolmogorov-Smirnov test
 ---------------------------
@@ -85,51 +78,45 @@ not a tutorial on statistics, we refer to that paper for more information.
 We choose the shortest period to compare with, and remove it from the list of
 periods.
 
-.. ipython::
+.. sourcecode:: python
     
-    In [1]: index_short = np.argmin(periods)
-    
-    In [1]: p_short = periods[index_short]
-    
-    In [1]: periods_del = np.delete(periods,index_short)
+    index_short = np.argmin(periods)    
+    p_short = periods[index_short]    
+    periods_del = np.delete(periods,index_short)
 
 Then, we calculate the distribution of the periods compared to the tested
 spacing:
 
-.. ipython::
+.. sourcecode:: python
     
-    In [1]: dp = []
+    dp = []    
+    for dp_test in test_spacings:
+        ri = []
+        for pi in periods_del:
+            ni = (pi-p_short)/dp_test
+            ri.append(ni-np.floor(ni))
+        dp.append(ri)
     
-    In [1]: for dp_test in test_spacings:
-       ...:     ri = []
-       ...:     for pi in periods_del:
-       ...:         ni = (pi-p_short)/dp_test
-       ...:         ri.append(ni-np.floor(ni))
-       ...:     dp.append(ri)
-       ...: 
 
 Next, we use the **Kolmogorov-Smirnov** test to derive whether the ``ri`` come
 from a uniform distribution. We do this for every test spacing:
     
-.. ipython::
+.. sourcecode:: python
     
-    In [1]: Q = np.zeros(len(dp))
- 
-    In [1]: for i,ri in enumerate(dp):
-       ...:     ksstat,pvalue = scipy.stats.kstest(ri,'uniform')
-       ...:     Q[i] = pvalue # we're only interested in the pvalue, not the KS statistic    
-       ...:
+    Q = np.zeros(len(dp)) 
+    for i,ri in enumerate(dp):
+        ksstat,pvalue = scipy.stats.kstest(ri,'uniform')
+        Q[i] = pvalue # we're only interested in the pvalue, not the KS statistic    
+    
         
 In principle, we should now correct for the number of trial periods (the
 Bonferroni correction, but we omit that step here. Finally, we can make a plot:
 
-.. ipython::
+.. sourcecode:: python
     
-    In [1]: plt.figure()
-    
-    In [1]: plt.plot(test_spacings,Q)
-    
-    In [1]: test_spacings[np.argmin(Q)]
+    plt.figure()    
+    plt.plot(test_spacings,Q)    
+    test_spacings[np.argmin(Q)]
     
 
 
@@ -150,70 +137,57 @@ care about the three random ones, but we do not know which ones the are).
 
 Let us first make a search grid:
 
-.. ipython::
+.. sourcecode:: python
     
-    In [1]: test_offset = np.linspace(1.2,1.25,500)
-    
-    In [1]: test_spacings = np.linspace(0.3,0.5,500)
+    test_offset = np.linspace(1.2,1.25,500)
+    test_spacings = np.linspace(0.3,0.5,500)
     
 And prepare for the computation of the chi-square statistic. We have 8 periods
 to match and free parameters, so we need to set ``k=8-2=6`` in the chi-square
 distribution:
     
-.. ipython::    
+.. sourcecode:: python
     
-    In [1]: chi2 = np.zeros((len(test_offset),len(test_spacings)))
-    
-    In [1]: k = 8-2
+    chi2 = np.zeros((len(test_offset),len(test_spacings)))
+    k = 8-2
 
 Next, we run over the grid and compute the chi-square statistic, which is
 defined as the sum of the residuals-squared divided by the error-squared:
     
-.. ipython::
+.. sourcecode:: python
     
-    In [1]: for i,to in enumerate(test_offset):        
-       ...:     for j,ts in enumerate(test_spacings):
-       ...:         test_periods = to+np.arange(8)*ts
-       ...:         periods_ = periods[:-1] + np.diff(periods)/2.
-       ...:         closest_index = np.searchsorted(periods_,test_periods)
-       ...:         chi2[i,j] = np.sum((periods[closest_index]-test_periods)**2/0.005**2)
-       ...:     
+    for i,to in enumerate(test_offset):        
+        for j,ts in enumerate(test_spacings):
+            test_periods = to+np.arange(8)*ts
+            periods_ = periods[:-1] + np.diff(periods)/2.
+            closest_index = np.searchsorted(periods_,test_periods)
+            chi2[i,j] = np.sum((periods[closest_index]-test_periods)**2/0.005**2)
+        
 
 Using ``scipy.stats``, we can compute the cumulative density of the chi-square
 value, which corresponds to some kind of confidence rating:
 
-.. ipython::
+.. sourcecode:: python
     
-    In [1]: chi2_stat = scipy.stats.distributions.chi2.cdf(chi2,k)        
+    chi2_stat = scipy.stats.distributions.chi2.cdf(chi2,k)        
 
 That's it! All is left is to make some plots: we choose to make a plot of the
 chi-square values themselves (left), and a plot of the confidence intervals (right).
 
-.. ipython::
+.. sourcecode:: python
 
-    In [1]: plt.figure();
-    
-    In [1]: plt.subplot(121);
-    
-    In [1]: extent = test_spacings.min(),test_spacings.max(),test_offset.max(),test_offset.min()
-    
-    In [1]: plt.imshow(chi2,aspect='auto',extent=extent,vmin=10,vmax=3000,cmap=plt.cm.spectral);
-    
-    In [1]: plt.colorbar();
-    
-    In [1]: plt.subplot(122);
-    
-    In [1]: plt.imshow(chi2_stat*100,aspect='auto',extent=extent,cmap=plt.cm.spectral);
-    
-    In [1]: plt.plot(0.43,1.23,'x',ms=40,mew=4,color='1');
-    
-    In [1]: plt.xlim(0.425,0.434);
-    
-    In [1]: plt.ylim(1.24,1.212);
-    
-    In [1]: cbar = plt.colorbar();
-    
-    In [1]: cbar.set_label('Confidence interval (%)');
+    plt.figure()    
+    plt.subplot(121)
+    extent = test_spacings.min(),test_spacings.max(),test_offset.max(),test_offset.min()    
+    plt.imshow(chi2,aspect='auto',extent=extent,vmin=10,vmax=3000,cmap=plt.cm.spectral)    
+    plt.colorbar()    
+    plt.subplot(122)
+    plt.imshow(chi2_stat*100,aspect='auto',extent=extent,cmap=plt.cm.spectral)
+    plt.plot(0.43,1.23,'x',ms=40,mew=4,color='1')
+    plt.xlim(0.425,0.434)    
+    plt.ylim(1.24,1.212)    
+    cbar = plt.colorbar()    
+    cbar.set_label('Confidence interval (%)')
 
     
 .. image:: ks_chi2.png
