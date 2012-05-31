@@ -18,14 +18,14 @@ Webpage Retrieval
 -----------------
 
 It is useful to write the example above a bit differently since
-readability counts and we want to highlight a few steps.
-::
+readability counts and we want to highlight a few steps::
 
-    with open('image_sources.csv','wb') as outfile:
-        handler = urllib2.urlopen(url)
-        data = handler.read()
-        outfile.write(data)
-        handler.close()
+   handler = urllib2.urlopen(url)
+   data = handler.read()
+   handler.close()
+   f = open('image_sources.csv','wb')
+   f.write(data)
+   f.close()
 
 First, `urllib2`_ has returned a file like object ``handler`` that
 points to a specific web resource. Various attributes about the
@@ -46,17 +46,17 @@ Building Queries
 
 Now we are getting closer to searching for data online via python. 
 Traditionally, each data archive has implemented its own set of 
-query parameters; more often then not you experience it as a web
+query parameters; more often than not you experience it as a web
 form with lots of check and input boxes. Most of the time these web
 forms  are simply input wrappers that build a query string and 
 process the result. 
 
-Here is a very simple query example: search for HST 
-images near M 51. It is worth noting that you have 
-to find and read the `MAST HST documentation <http://archive.stsci.edu/vo/mast_services.html>`_ to 
-learn which `parameters <http://archive.stsci.edu/vo/general_params.html>`_ are needed to build the query.
- 
-::
+Here is a very simple query example: search for HST images near
+M 51. It is worth noting that you have to find and read the `MAST HST
+documentation <http://archive.stsci.edu/vo/mast_services.html>`_ to
+learn which `parameters
+<http://archive.stsci.edu/vo/general_params.html>`_ are needed to
+build the query::
 
     import urllib2, urllib
     
@@ -85,13 +85,13 @@ learn which `parameters <http://archive.stsci.edu/vo/general_params.html>`_ are 
     print handler.headers['content-type']
     
     # save it
-    with open('hst_m51.csv','wb') as f:
-        f.write(handler.read())        
-                                     
+    f = open('hst_m51.csv','wb')
+    f.write(handler.read())     
+    f.close()                                 
+
 The magic is that `urllib`_ module takes care of encoding the 
 parameters using standard HTTP rules. You can compare the input
-dictionary key,value pairs with the HTTP url encoding. 
-::
+dictionary key,value pairs with the HTTP url encoding::
 
     # some simple formatting where the format %-M.Ns means 
     # "-" :: 'left justified'
@@ -101,19 +101,18 @@ dictionary key,value pairs with the HTTP url encoding.
     sform = "%-20.20s %-10.10s %-30.30s"   
 
     # make a header
-    print sform % ('parameter','value','encoded')
-    print sform % (3*(100*'-',))
+    print sform % ('parameter', 'value', 'encoded')
+    print sform % (3 * (100 * '-',))
     
-    # for each paramter show the input items from the dictionary
+    # for each parameter show the input items from the dictionary
     # "p" and the output query string. 
-    for a,b in zip(p.items(),query.split('&')):
-       print sform % (a+(b,))
+    for a,b in zip(p.items(), query.split('&')):
+       print sform % (a + (b,))
        
 .. admonition::  Exercise: import WISE catalog data for a young cluster
 
-    In this exerice you will use a different service (IRSA) and
-    with a different overall goal for these data. 
-    ::
+    In this exercise you will use a different service (IRSA) and
+    with a different overall goal for these data::
 
         import atpy, urllib, urllib2
     
@@ -131,8 +130,9 @@ dictionary key,value pairs with the HTTP url encoding.
         raw = handler.read()
         print raw[0:255]
         
-        with open('ic348_wise.tbl', 'wb') as f:
-            f.write(raw)
+        f = open('ic348_wise.tbl', 'wb')
+        f.write(raw)
+        f.close()
 
     The challenge is to immediately analyze the results of this query. The
     exercise is to make a simple color-color plot of these objects.
@@ -142,47 +142,24 @@ dictionary key,value pairs with the HTTP url encoding.
 
    <p class="flip9">Click to Show/Hide Solution</p> <div class="panel9">
 
-There are MANY ways we have looked at in the workshops for converting
-this result to a numpy array.  Some of these examples parse the raw
-web data directly, circumventing a need to write it to file. Some use
-different means to try to deal with the data types and null values
-in the result.
-::
+There are several ways we have looked at in the workshops for
+converting this result to a numpy array. We're going to use atpy to
+read in the table::
 
-    t1 = atpy.Table('ic348_wise.tbl',type="ipac")
-    
-    t2 = asciitable.read(raw, Reader=asciitable.IpacReader)
+    t = atpy.Table('ic348_wise.tbl')
 
-    t3 = atpy.Table(raw,type='ascii')
-    
-    fill_values = [('null',numpy.nan)]
 
-    t4 = asciitable.read(raw, Reader=asciitable.IpacReader, \   
-        fill_values=fill_values)
+You'll notice that atpy automatically detects that this in ipac table,
+and automatically replaced 'null' values with ``nan``, correctly
+converts all the data types, and preserves more of the metadata of the
+query.  Now we can make a quick plot that reuses some of this metadata
+in the plot title::
 
-    t5 = atpy.Table(raw,type='ascii', fill_values=fill_values)
-
-Its important to realize that YMMV as to how these differ in their output.
-For example, lets look at the output table types and the data types for
-a couple of columns::
-
-    t = [t1, t2, t3, t4, t5]
-    for i in t: 
-        c = (type(i), i['j_m_2mass'].dtype, i['tmass_key'].dtype)
-        print "%40s%10s%10s" % c
-
-The output table types (and hence their built-in utilities), column data types
-and treatment of null values vary and this matters when trying to make a plot
-or perform other types of analysis. We will use ``t1`` as the data types are 
-correct. It also preserves more of the metadata of the query. 
-Just a quick plot that reuses some of this metadata in the plot title.
-::
-
-    clf()
-    plot(t1['w2mag']-t1['w3mag'], t1['j_m_2mass']-t1['h_m_2mass'], 'ro')
-    xlabel('W2 - W3')
-    ylabel('J - H')
-    title(t1.keywords['SKYAREA'], fontsize='small')
+    plt.clf()
+    plt.plot(t['w2mag'] - t['w3mag'], t['j_m_2mass'] - t['h_m_2mass'], 'ro')
+    plt.xlabel('W2 - W3')
+    plt.ylabel('J - H')
+    plt.title(t.keywords['SKYAREA'], fontsize='small')
     
 .. image:: wise_cc.png
    :scale: 50
@@ -190,7 +167,6 @@ Just a quick plot that reuses some of this metadata in the plot title.
 .. raw:: html
 
    </div>
-
 
 
 .. admonition:: Read the instructions!
