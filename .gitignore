@@ -6,3 +6,5 @@ py4ast/
 source/data_2_1
 
 .DS_Store
+
+source/gen.fits
