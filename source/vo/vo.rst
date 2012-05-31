@@ -3,26 +3,24 @@
 
 :tocdepth: 2
 
-Online Astronomy and the virtual observatory
-============================================
+Other useful techniques and packages
+====================================
 
-
-Workshop goals:
+Goals:
 
 - Review basic python web interfacing tools
 - Learn how to make remote queries
-- Interface with other desktop tools
+- Make a scatter plot, use numerical integration and make twin axes
+- Find out how to locate documentation about NumPy and Scipy
+- Use `history` and other magic functions in IPython.
 
 **Agenda**
 
 .. toctree::
    :maxdepth: 1
    
-   install.rst
    webmodules.rst
-   votools.rst
-   atpy.rst
-   changes.rst
+   scatter.rst
 
-:Author: Gus Muench
+.. :Author: Gus Muench
 :Copyright: 2011 Smithsonian Astrophysical Observatory
