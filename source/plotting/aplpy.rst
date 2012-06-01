@@ -29,7 +29,7 @@ When things go wrong
 
 * If you run into what you believe is a bug, please report it at the GitHub `Issue Tracker <https://github.com/aplpy/aplpy/issues>`_.
 
-Getting started
+Getting Started
 ---------------
 
 Start off by downloading :download:`this tar file <../downloads/ic348_wise.tar>`, expand it, and go to the ``ic348_wise`` directory on the command line. Then, launch pylab::
@@ -79,7 +79,8 @@ The latter is recommended because it will automatically figure out the best reso
 .. image:: ic348_basic.png
     :scale: 50
 
-
+Color Images
+------------
 Now let's do something a bit more advanced where we'll make a color image from the fits files and plot some extra features on top of it. If you cannot get Montage and python-montage installed, then you can use the already produced files to follow along with the exercise::
     
     import aplpy
@@ -97,7 +98,7 @@ Now let's do something a bit more advanced where we'll make a color image from t
 
     # Launch APLpy figure of 2D cube
     img = aplpy.FITSFigure('cube_2d.fits')
-    img.show_rgb('ic348_color_linear.png')
+    img.show_rgb('rgb_image_arcsinh.png')
 
     # Maybe we would like the arcsinh stretched image more?
     img.show_rgb('ic348_color_arcsinh.png')
@@ -123,6 +124,8 @@ Your final color plot should look something like this:
 .. image:: ic348_color_scalebar.png
     :scale: 50
 
+Publication Quality Images
+--------------------------
 We're ready at this point to start making science-grade plots with APLpy with contours and markers::
 
     import aplpy, atpy
@@ -160,7 +163,7 @@ We're ready at this point to start making science-grade plots with APLpy with co
     img.show_markers(t.ra, t.dec, marker='^', s=100)
 
     # Let's add a contour from Av map of the region from COMPLETE Survey
-    img.show_contour('per_extn2mass.fits', levels=[8,7,6,5,4], colors='green')
+    img.show_contour('per_extn2mass.fits', levels=[8,7,6,5,4], colors='orange')
     img.save('ic348_marker_contour.png')
     
 The science-grade plot should look something like this:
@@ -179,35 +182,87 @@ The science-grade plot should look something like this:
     
     <p class="flip1">Click to Show/Hide Solution</p> <div class="panel1">
     
-import aplpy
-import atpy
+::
 
-# Exercise
+    import aplpy
+    import atpy
 
-img = aplpy.FITSFigure('per_av_j2000.fits')
+    # Exercise
 
-# Identical to show_grayscale
-img.show_colorscale()
+    img = aplpy.FITSFigure('per_av_j2000.fits')
 
-# Recenter the image with a defined width of 5 degrees
-img.recenter(54.51, 31.39, radius=2.5)
+    # Identical to show_grayscale
+    img.show_colorscale()
 
-# Show the grid
-img.show_grid()
+    # Recenter the image with a defined width of 5 degrees
+    img.recenter(54.51, 31.39, radius=2.5)
 
-# Define tick label style
-img.tick_labels.set_xformat('hhmm')
-img.tick_labels.set_yformat('ddmm')
+    # Show the grid
+    img.show_grid()
 
-img.show_colorbar()
+    # Define tick label style
+    img.tick_labels.set_xformat('hhmm')
+    img.tick_labels.set_yformat('ddmm')
 
-# Read in table using atpy
-t = atpy.Table('per_ysoc_c2d.fits')
+    img.show_colorbar()
 
-# Plot markers 
-img.show_markers(t.ra, t.dec, facecolor='black', edgecolor='none', s=20)
+    # Read in table using atpy
+    t = atpy.Table('per_ysoc_c2d.fits')
 
-img.save('ic348_av_markers.png')
+    # Plot markers 
+    img.show_markers(t.ra, t.dec, facecolor='black', edgecolor='none', s=20)
+
+    img.save('ic348_av_markers.png')
 
 .. raw:: html
-</div>
+
+    </div>
+
+Subplots and DS9 Region Files
+-----------------------------
+With APLpy we're able to make subplots within a figure just like Matplotlib and we can pull in a DS9 region files. Unfortunately, there is a bug in the official pyregion release, so it's suggested that you download the latest development version `here <http://github.com/leejjoon/pyregion/zipball/master>`_. Use pip to install the package like the following.::
+
+    $pip install pyregion/ --user --upgrade
+
+Now, let's work on an example that shows both capabilities below::
+
+    import aplpy
+    import pyfits
+    import matplotlib.pyplot as mpl
+
+    fig = mpl.figure()
+    
+    # Initiating first subplot
+    f1 = aplpy.FITSFigure('w4.fits', figure=fig)
+    f1.show_grayscale()
+
+    # Load a regions file into APLpy plot
+    f1.show_regions('bowshock.reg')
+
+    # Modify the tick labels for precision and format
+    f1.tick_labels.set_xformat('hhmmss')
+    f1.tick_labels.set_yformat('ddmm')
+
+    # Initiating second subplot
+    f2 = aplpy.FITSFigure('w4_bw1.fits', figure=fig, 
+                           subplot=[0.25,0.15,0.11,0.15])
+    f2.show_colorscale(cmap = cm.jet)
+
+    # Hiding the ticks, tick labels (numbers) and axis labels (e.g. RA & Dec.)
+    f2.ticks.hide()
+    f2.tick_labels.hide()
+    f2.axis_labels.hide()
+
+    # Another way of adding a subplot to the figure
+    d = pyfits.getdata('w4_bw2.fits')
+    f3 = fig.add_axes([0.25,0.7,0.15,0.15])
+    f3.imshow(d, origin='lower left', cmap=cm.jet)
+    f3.axes.get_xaxis().set_visible(False)
+    f3.axes.get_yaxis().set_visible(False)
+
+    fig.canvas.draw()
+
+    fig.savefig('subplots.pdf', bbox_inches='tight')
+
+.. image:: subplots.png
+    :scale: 70

@@ -1,27 +1,30 @@
-:tocdepth: 2
+Fitting data with Python
+========================
 
-Fitting and Modeling 1-D and 2-D Data
-=====================================
+Fitting models to data is one of the key steps in scientific work. Some examples are:
 
-Workshop goals:
+* fitting some spectrum/spectral line
+* fitting 2D light distribution of a galaxy
+* fitting orbits of exoplanets
+* estimating the galaxy luminosity function from data
 
-- Discover Python classes and Object-Oriented Programming
-- Learn the basics of modeling and fitting with Sherpa 
-- Fit a MAST spectrum of 3c 273
-- Fit a Chandra image of G21.5-0.9
+Numpy and Scipy provide readily usable tools to fit models to data. Moreover, Python is an excellent environment to develop your own fitting routines for more advanced problems.
 
+Goals of this session
+----------------
+
+* How to use implemented routines: `leastsq` and `curve_fit`.
+* Astrophysical example: Salpeter mass function.
+* MCMC using `emcee` the MCMC Hammer
 
 **Agenda**
 
 .. toctree::
    :maxdepth: 1
- 
-   installation
-   classes
-   sherpa
-   spectrum
-   image
+   
+   introduction
+   least-squares-fitting
+   examples1d
 
-:Author: Brian Refsdal
-:Copyright: 2011 Smithsonian Astrophysical Observatory
-
+:Authors: Rene Andrae
+:Copyright: 2012, Rene Andrae

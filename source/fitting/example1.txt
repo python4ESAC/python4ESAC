@@ -1,0 +1,5 @@
+import numpy as np
+from scipy.optimize import curve_fit
+
+def func(x, a, x0, sigma):
+    return a*np.exp(-(x-x0)**2/(2*sigma**2))
