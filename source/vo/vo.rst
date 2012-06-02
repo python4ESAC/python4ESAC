@@ -1,10 +1,9 @@
 .. include:: ../references.rst
-.. Python4Astronomers documentation file
 
 :tocdepth: 2
 
-Other useful techniques and packages
-====================================
+Interfacing the web, finding help, and further examples
+=======================================================
 
 Goals:
 
@@ -21,6 +20,4 @@ Goals:
    
    webmodules.rst
    scatter.rst
-
-.. :Author: Gus Muench
-:Copyright: 2011 Smithsonian Astrophysical Observatory
+   help.rst
