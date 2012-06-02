@@ -26,5 +26,5 @@ Goals of this session
    least-squares-fitting
    examples1d
 
-:Authors: Rene Andrae
-:Copyright: 2012, Rene Andrae
+:Authors: Eli Bressert and Rene Andrea
+:Copyright: 2012, Eli Bressert and Rene Andrae

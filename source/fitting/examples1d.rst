@@ -119,4 +119,4 @@ Use the optional parameter p0 for the initial conditions::
 
     </div>
   
-The next obvious choice from here are 2D fittings, but it goes beyond the time and expertise at this level of Python development. If you do need such a tool for your work, you can grab a very good 2D Gaussian fitting program (pure Python) from `here <http://code.google.com/p/agpy/source/browse/trunk/agpy/gaussfitter.py>`_. For tasks like and even more complicated, using MCMC methods is a good way to go. One of the simplest and fastest packages for MCMC is `emcee <http://danfm.ca/emcee/>`_.
+The next obvious choice from here are 2D fittings, but it goes beyond the time and expertise at this level of Python development. If you do need such a tool for your work, you can grab a very good 2D Gaussian fitting program (pure Python) from `here <http://code.google.com/p/agpy/source/browse/trunk/agpy/gaussfitter.py>`_. For high multi-dimensional fittings, using MCMC methods is a good way to go. One of the simplest and fastest MCMC packages is `emcee <http://danfm.ca/emcee/>`_.
